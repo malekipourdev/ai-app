@@ -322,12 +322,14 @@ const Controls: React.FC<ControlsProps> = ({
           }}
         >
           {/* Start node indicator */}
-          <div style={{ 
-            display: "flex", 
-            alignItems: "center", 
-            gap: "5px",
-            flexDirection: isRTL ? "row-reverse" : "row",
-          }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "5px",
+              flexDirection: isRTL ? "row-reverse" : "row",
+            }}
+          >
             <div
               style={{
                 width: "15px",
@@ -339,12 +341,14 @@ const Controls: React.FC<ControlsProps> = ({
             <span>{t.start}</span>
           </div>
           {/* Goal node indicator */}
-          <div style={{ 
-            display: "flex", 
-            alignItems: "center", 
-            gap: "5px",
-            flexDirection: isRTL ? "row-reverse" : "row",
-          }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "5px",
+              flexDirection: isRTL ? "row-reverse" : "row",
+            }}
+          >
             <div
               style={{
                 width: "15px",
@@ -356,12 +360,14 @@ const Controls: React.FC<ControlsProps> = ({
             <span>{t.goal}</span>
           </div>
           {/* Wall node indicator */}
-          <div style={{ 
-            display: "flex", 
-            alignItems: "center", 
-            gap: "5px",
-            flexDirection: isRTL ? "row-reverse" : "row",
-          }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "5px",
+              flexDirection: isRTL ? "row-reverse" : "row",
+            }}
+          >
             <div
               style={{
                 width: "15px",
@@ -373,12 +379,14 @@ const Controls: React.FC<ControlsProps> = ({
             <span>{t.wall}</span>
           </div>
           {/* Visited node indicator */}
-          <div style={{ 
-            display: "flex", 
-            alignItems: "center", 
-            gap: "5px",
-            flexDirection: isRTL ? "row-reverse" : "row",
-          }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "5px",
+              flexDirection: isRTL ? "row-reverse" : "row",
+            }}
+          >
             <div
               style={{
                 width: "15px",
@@ -390,12 +398,14 @@ const Controls: React.FC<ControlsProps> = ({
             <span>{t.visited}</span>
           </div>
           {/* Path node indicator */}
-          <div style={{ 
-            display: "flex", 
-            alignItems: "center", 
-            gap: "5px",
-            flexDirection: isRTL ? "row-reverse" : "row",
-          }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "5px",
+              flexDirection: isRTL ? "row-reverse" : "row",
+            }}
+          >
             <div
               style={{
                 width: "15px",
@@ -407,12 +417,14 @@ const Controls: React.FC<ControlsProps> = ({
             <span>{t.path}</span>
           </div>
           {/* Empty node indicator */}
-          <div style={{ 
-            display: "flex", 
-            alignItems: "center", 
-            gap: "5px",
-            flexDirection: isRTL ? "row-reverse" : "row",
-          }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "5px",
+              flexDirection: isRTL ? "row-reverse" : "row",
+            }}
+          >
             <div
               style={{
                 width: "15px",

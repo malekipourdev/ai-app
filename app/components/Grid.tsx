@@ -298,7 +298,7 @@ const Grid: React.FC<GridProps> = ({
   // Render the grid component
   return (
     <div
-      className={`grid-container ${isRTL ? 'persian-rtl' : 'english-ltr'}`}
+      className={`grid-container ${isRTL ? "persian-rtl" : "english-ltr"}`}
       style={{
         backgroundColor: "white",
         borderRadius: "12px",
@@ -311,7 +311,7 @@ const Grid: React.FC<GridProps> = ({
     >
       {/* Instructions for user interaction */}
       <div
-        className={`grid-instructions ${isRTL ? 'persian-rtl' : 'english-ltr'}`}
+        className={`grid-instructions ${isRTL ? "persian-rtl" : "english-ltr"}`}
         style={{
           marginBottom: "20px",
           textAlign: isRTL ? "right" : "center",
@@ -336,7 +336,9 @@ const Grid: React.FC<GridProps> = ({
             alignItems: "center",
             gap: "10px",
             flexDirection: isRTL ? "row-reverse" : "row",
-            fontFamily: isRTL ? "Tahoma, Arial, sans-serif" : "Inter, Arial, sans-serif",
+            fontFamily: isRTL
+              ? "Tahoma, Arial, sans-serif"
+              : "Inter, Arial, sans-serif",
             direction: isRTL ? "rtl" : "ltr",
             unicodeBidi: "isolate",
             justifyContent: isRTL ? "flex-end" : "flex-start",
@@ -345,7 +347,7 @@ const Grid: React.FC<GridProps> = ({
           🎯 <span>{t.howToUse}</span>
         </h3>
         <div
-          className={isRTL ? 'persian-rtl' : 'english-ltr'}
+          className={isRTL ? "persian-rtl" : "english-ltr"}
           style={{
             display: "flex",
             flexDirection: "column",
@@ -357,7 +359,9 @@ const Grid: React.FC<GridProps> = ({
             border: "1px solid #e9ecef",
             boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
             direction: isRTL ? "rtl" : "ltr",
-            fontFamily: isRTL ? "Tahoma, Arial, sans-serif" : "Inter, Arial, sans-serif",
+            fontFamily: isRTL
+              ? "Tahoma, Arial, sans-serif"
+              : "Inter, Arial, sans-serif",
             unicodeBidi: "isolate",
           }}
         >
@@ -374,18 +378,24 @@ const Grid: React.FC<GridProps> = ({
               fontWeight: "500",
               color: "#495057",
               flexDirection: isRTL ? "row-reverse" : "row",
-              fontFamily: isRTL ? "Tahoma, Arial, sans-serif" : "Inter, Arial, sans-serif",
+              fontFamily: isRTL
+                ? "Tahoma, Arial, sans-serif"
+                : "Inter, Arial, sans-serif",
               textAlign: isRTL ? "right" : "left",
             }}
           >
             <span style={{ fontSize: "20px" }}>🖱️</span>
-            <span style={{
-              textAlign: isRTL ? "right" : "left",
-              direction: isRTL ? "rtl" : "ltr",
-              unicodeBidi: "isolate",
-              width: "100%",
-              display: "block",
-            }}>{t.clickToToggle}</span>
+            <span
+              style={{
+                textAlign: isRTL ? "right" : "left",
+                direction: isRTL ? "rtl" : "ltr",
+                unicodeBidi: "isolate",
+                width: "100%",
+                display: "block",
+              }}
+            >
+              {t.clickToToggle}
+            </span>
           </div>
           <div
             style={{
@@ -400,18 +410,24 @@ const Grid: React.FC<GridProps> = ({
               fontWeight: "500",
               color: "#495057",
               flexDirection: isRTL ? "row-reverse" : "row",
-              fontFamily: isRTL ? "Tahoma, Arial, sans-serif" : "Inter, Arial, sans-serif",
+              fontFamily: isRTL
+                ? "Tahoma, Arial, sans-serif"
+                : "Inter, Arial, sans-serif",
               textAlign: isRTL ? "right" : "left",
             }}
           >
             <span style={{ fontSize: "20px" }}>🟢</span>
-            <span style={{
-              textAlign: isRTL ? "right" : "left",
-              direction: isRTL ? "rtl" : "ltr",
-              unicodeBidi: "isolate",
-              width: "100%",
-              display: "block",
-            }}>{t.dragGreenNode}</span>
+            <span
+              style={{
+                textAlign: isRTL ? "right" : "left",
+                direction: isRTL ? "rtl" : "ltr",
+                unicodeBidi: "isolate",
+                width: "100%",
+                display: "block",
+              }}
+            >
+              {t.dragGreenNode}
+            </span>
           </div>
           <div
             style={{
@@ -426,18 +442,24 @@ const Grid: React.FC<GridProps> = ({
               fontWeight: "500",
               color: "#495057",
               flexDirection: isRTL ? "row-reverse" : "row",
-              fontFamily: isRTL ? "Tahoma, Arial, sans-serif" : "Inter, Arial, sans-serif",
+              fontFamily: isRTL
+                ? "Tahoma, Arial, sans-serif"
+                : "Inter, Arial, sans-serif",
               textAlign: isRTL ? "right" : "left",
             }}
           >
             <span style={{ fontSize: "20px" }}>🔴</span>
-            <span style={{
-              textAlign: isRTL ? "right" : "left",
-              direction: isRTL ? "rtl" : "ltr",
-              unicodeBidi: "isolate",
-              width: "100%",
-              display: "block",
-            }}>{t.dragRedNode}</span>
+            <span
+              style={{
+                textAlign: isRTL ? "right" : "left",
+                direction: isRTL ? "rtl" : "ltr",
+                unicodeBidi: "isolate",
+                width: "100%",
+                display: "block",
+              }}
+            >
+              {t.dragRedNode}
+            </span>
           </div>
         </div>
       </div>
