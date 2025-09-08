@@ -21,15 +21,9 @@ export function meta({}: Route.MetaArgs) {
 export default function Home() {
   // Grid state management
   const [grid, setGrid] = useState<NodeType[][]>([]);
+  const [gridSize, setGridSize] = useState(7);
   const [startNode, setStartNode] = useState({ row: 1, col: 1 });
   const [goalNode, setGoalNode] = useState({ row: 5, col: 5 });
-
-  // Obstacle generation state
-  const [obstacleMode, setObstacleMode] = useState<
-    "manual" | "random" | "maze"
-  >("manual");
-  const [obstacleDensity, setObstacleDensity] = useState(0.3);
-  const [obstacleSeed, setObstacleSeed] = useState(42);
 
   // Algorithm control state
   const [selectedAlgorithm, setSelectedAlgorithm] = useState("dfs");
@@ -52,11 +46,6 @@ export default function Home() {
   // Animation timer reference
   const animationTimer = useRef<NodeJS.Timeout | null>(null);
 
-  // Initialize grid on component mount
-  useEffect(() => {
-    initializeGrid();
-  }, []);
-
   // Start animation when playing and visitedNodes are available
   useEffect(() => {
     if (
@@ -76,15 +65,36 @@ export default function Home() {
 
   // Initialize or reset the grid to default state
   const initializeGrid = useCallback(() => {
-    // Create a new 7x7 grid
-    const newGrid = createGrid(7, 7);
+    // Create a new grid with current size
+    const newGrid = createGrid(gridSize, gridSize);
 
-    // Set start and goal nodes
-    newGrid[startNode.row][startNode.col].isStart = true;
-    newGrid[goalNode.row][goalNode.col].isEnd = true;
+    // Set start and goal nodes (adjust positions if they're outside new grid bounds)
+    const adjustedStartRow = Math.min(startNode.row, gridSize - 1);
+    const adjustedStartCol = Math.min(startNode.col, gridSize - 1);
+    const adjustedGoalRow = Math.min(goalNode.row, gridSize - 1);
+    const adjustedGoalCol = Math.min(goalNode.col, gridSize - 1);
+
+    newGrid[adjustedStartRow][adjustedStartCol].isStart = true;
+    newGrid[adjustedGoalRow][adjustedGoalCol].isEnd = true;
+
+    // Update start and goal positions if they were adjusted
+    if (
+      adjustedStartRow !== startNode.row ||
+      adjustedStartCol !== startNode.col
+    ) {
+      setStartNode({ row: adjustedStartRow, col: adjustedStartCol });
+    }
+    if (adjustedGoalRow !== goalNode.row || adjustedGoalCol !== goalNode.col) {
+      setGoalNode({ row: adjustedGoalRow, col: adjustedGoalCol });
+    }
 
     setGrid(newGrid);
-  }, [startNode.row, startNode.col, goalNode.row, goalNode.col]);
+  }, [gridSize, startNode.row, startNode.col, goalNode.row, goalNode.col]);
+
+  // Initialize grid on component mount and when grid size changes
+  useEffect(() => {
+    initializeGrid();
+  }, [initializeGrid]);
 
   // Get algorithm function based on selected algorithm
   const getAlgorithmFunction = useCallback(() => {
@@ -292,6 +302,37 @@ export default function Home() {
     initializeGrid();
   }, [initializeGrid]);
 
+  // Handle grid size change
+  const handleGridSizeChange = useCallback((newSize: number) => {
+    setGridSize(newSize);
+
+    // Adjust start and goal positions for new grid size
+    const newStartNode = {
+      row: Math.min(1, newSize - 2),
+      col: Math.min(1, newSize - 2),
+    };
+    const newGoalNode = {
+      row: Math.min(newSize - 2, Math.max(newSize - 2, 1)),
+      col: Math.min(newSize - 2, Math.max(newSize - 2, 1)),
+    };
+
+    setStartNode(newStartNode);
+    setGoalNode(newGoalNode);
+
+    // Reset the visualization when grid size changes
+    setIsPlaying(false);
+    setIsPaused(false);
+    setCurrentStep(0);
+    setIsComplete(false);
+    setVisitedNodes([]);
+    setFinalPath([]);
+    setExecutionTime(0);
+
+    if (animationTimer.current) {
+      clearTimeout(animationTimer.current);
+    }
+  }, []);
+
   // Calculate statistics for display
   const stats = {
     pathLength: finalPath.length,
@@ -309,14 +350,40 @@ export default function Home() {
   return (
     <div
       className="app"
-      style={{ padding: "20px", fontFamily: "Inter, sans-serif" }}
+      style={{
+        minHeight: "100vh",
+        backgroundColor: "#f8f9fa",
+        fontFamily: "Inter, sans-serif",
+      }}
     >
-      <header style={{ textAlign: "center", marginBottom: "30px" }}>
-        <h1 style={{ color: "#333", fontSize: "2.5rem", marginBottom: "10px" }}>
-          Pathfinding Visualizer
+      <header
+        style={{
+          textAlign: "center",
+          padding: "20px 0 30px 0",
+          backgroundColor: "white",
+          boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+        }}
+      >
+        <h1
+          style={{
+            color: "#2c3e50",
+            fontSize: "2.5rem",
+            marginBottom: "10px",
+            fontWeight: "600",
+          }}
+        >
+          🔍 Pathfinding Visualizer
         </h1>
-        <p style={{ color: "#666", fontSize: "1.1rem" }}>
-          Visualize different pathfinding algorithms in action
+        <p
+          style={{
+            color: "#7f8c8d",
+            fontSize: "1.1rem",
+            maxWidth: "600px",
+            margin: "0 auto",
+          }}
+        >
+          Visualize different pathfinding algorithms in action and compare their
+          performance
         </p>
       </header>
 
@@ -325,7 +392,10 @@ export default function Home() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: "20px",
+          gap: "30px",
+          padding: "20px",
+          maxWidth: "1200px",
+          margin: "0 auto",
         }}
       >
         {/* Controls component with all animation controls */}
@@ -343,14 +413,10 @@ export default function Home() {
           onReset={handleReset}
           animationSpeed={animationSpeed}
           onSpeedChange={setAnimationSpeed}
+          gridSize={gridSize}
+          onGridSizeChange={handleGridSizeChange}
           selectedHeuristic={selectedHeuristic}
           onHeuristicChange={setSelectedHeuristic}
-          obstacleMode={obstacleMode}
-          onObstacleModeChange={setObstacleMode}
-          obstacleDensity={obstacleDensity}
-          onObstacleDensityChange={setObstacleDensity}
-          obstacleSeed={obstacleSeed}
-          onObstacleSeedChange={setObstacleSeed}
         />
 
         {/* Grid component with obstacle generation support */}
@@ -361,9 +427,6 @@ export default function Home() {
           goalNode={goalNode}
           onStartNodeChange={setStartNode}
           onGoalNodeChange={setGoalNode}
-          obstacleMode={obstacleMode}
-          obstacleDensity={obstacleDensity}
-          obstacleSeed={obstacleSeed}
           isInteractionDisabled={isPlaying || isComplete}
         />
 

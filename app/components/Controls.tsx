@@ -23,6 +23,10 @@ interface ControlsProps {
   animationSpeed: number;
   onSpeedChange: (speed: number) => void;
 
+  // Grid size control
+  gridSize: number;
+  onGridSizeChange: (size: number) => void;
+
   // Heuristic selection for informed algorithms
   selectedHeuristic: string;
   onHeuristicChange: (heuristic: string) => void;
@@ -47,6 +51,8 @@ const Controls: React.FC<ControlsProps> = ({
   onReset,
   animationSpeed,
   onSpeedChange,
+  gridSize,
+  onGridSizeChange,
   selectedHeuristic,
   onHeuristicChange,
 }) => {
@@ -73,19 +79,27 @@ const Controls: React.FC<ControlsProps> = ({
   return (
     <div
       style={{
-        padding: "20px",
-        backgroundColor: "#f8f9fa",
-        borderRadius: "8px",
+        padding: "25px",
+        backgroundColor: "white",
+        borderRadius: "12px",
         marginBottom: "20px",
-        border: "1px solid #e9ecef",
-        minWidth: "800px",
+        border: "1px solid #e1e8ed",
+        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+        width: "100%",
+        maxWidth: "900px",
       }}
     >
       {/* Header section with title */}
       <h3
-        style={{ margin: "0 0 20px 0", color: "#495057", textAlign: "center" }}
+        style={{
+          margin: "0 0 25px 0",
+          color: "#2c3e50",
+          textAlign: "center",
+          fontSize: "1.3rem",
+          fontWeight: "600",
+        }}
       >
-        Pathfinding Controls
+        ⚙️ Algorithm Controls
       </h3>
 
       {/* Algorithm selection section */}
@@ -119,6 +133,40 @@ const Controls: React.FC<ControlsProps> = ({
             </option>
           ))}
         </select>
+      </div>
+
+      {/* Grid size control section */}
+      <div style={{ marginBottom: "20px" }}>
+        <label
+          style={{
+            display: "block",
+            marginBottom: "8px",
+            fontWeight: "bold",
+            color: "#495057",
+          }}
+        >
+          Grid Size: {gridSize}x{gridSize}
+        </label>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <span style={{ fontSize: "12px", color: "#6c757d" }}>5x5</span>
+          <input
+            type="range"
+            min="5"
+            max="20"
+            step="1"
+            value={gridSize}
+            onChange={(e) => onGridSizeChange(Number(e.target.value))}
+            style={{
+              flex: 1,
+              height: "6px",
+              borderRadius: "3px",
+              background: "#ddd",
+              outline: "none",
+            }}
+            title="Adjust grid size"
+          />
+          <span style={{ fontSize: "12px", color: "#6c757d" }}>20x20</span>
+        </div>
       </div>
 
       {/* Heuristic selection (only for informed algorithms) */}

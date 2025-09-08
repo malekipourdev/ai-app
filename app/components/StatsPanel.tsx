@@ -70,26 +70,39 @@ const StatsPanel: React.FC<StatsPanelProps> = ({
   return (
     <div
       style={{
-        padding: "20px",
-        backgroundColor: "#f8f9fa",
-        borderRadius: "8px",
+        padding: "25px",
+        backgroundColor: "white",
+        borderRadius: "12px",
         marginTop: "20px",
-        border: "1px solid #e9ecef",
-        minWidth: "800px",
+        border: "1px solid #e1e8ed",
+        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+        width: "100%",
+        maxWidth: "900px",
       }}
     >
       {/* Header section with algorithm info */}
-      <div style={{ marginBottom: "20px", textAlign: "center" }}>
-        <h3 style={{ margin: "0 0 10px 0", color: "#495057" }}>
-          Algorithm Statistics
+      <div style={{ marginBottom: "25px", textAlign: "center" }}>
+        <h3
+          style={{
+            margin: "0 0 15px 0",
+            color: "#2c3e50",
+            fontSize: "1.3rem",
+            fontWeight: "600",
+          }}
+        >
+          📊 Algorithm Statistics
         </h3>
         {/* Current algorithm display */}
         <div
           style={{
-            fontSize: "16px",
-            fontWeight: "bold",
-            color: "#495057",
-            marginBottom: "5px",
+            fontSize: "18px",
+            fontWeight: "600",
+            color: "#34495e",
+            marginBottom: "8px",
+            padding: "8px 16px",
+            backgroundColor: "#ecf0f1",
+            borderRadius: "6px",
+            display: "inline-block",
           }}
         >
           {stats.algorithmName}
@@ -97,7 +110,7 @@ const StatsPanel: React.FC<StatsPanelProps> = ({
             <span
               style={{
                 fontSize: "14px",
-                fontWeight: "normal",
+                fontWeight: "400",
                 color: "#6c757d",
               }}
             >

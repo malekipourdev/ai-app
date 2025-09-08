@@ -45,10 +45,27 @@ const Node: React.FC<NodeProps> = ({
   const getBackgroundColor = (): string => {
     if (isStart) return "#4CAF50"; // Green for start
     if (isGoal) return "#f44336"; // Red for goal
-    if (isWall) return "#000000"; // Black for walls
-    if (isPath) return "#FFEB3B"; // Yellow for path
+    if (isWall) return "#424242"; // Dark gray for walls
+    if (isPath) return "#FFD54F"; // Golden yellow for path
     if (isVisited) return "#81C784"; // Light green for visited
     return "#FFFFFF"; // White for empty
+  };
+
+  // Helper function to get border color for better visual separation
+  const getBorderColor = (): string => {
+    if (isStart) return "#388E3C"; // Darker green border
+    if (isGoal) return "#d32f2f"; // Darker red border
+    if (isWall) return "#212121"; // Very dark border
+    if (isPath) return "#FFC107"; // Orange border
+    if (isVisited) return "#66BB6A"; // Medium green border
+    return "#e0e0e0"; // Light gray border
+  };
+
+  // Helper function to determine if node should have an icon
+  const getNodeIcon = (): string => {
+    if (isStart) return "🏁"; // Flag for start
+    if (isGoal) return "🎯"; // Target for goal
+    return "";
   };
 
   return (
@@ -59,15 +76,27 @@ const Node: React.FC<NodeProps> = ({
       onMouseEnter={() => onMouseEnter(row, col)} // Handle mouse drag over node
       onMouseUp={() => onMouseUp()} // Handle mouse release to end drag
       style={{
-        // Inline styles for node appearance
-        width: "25px",
-        height: "25px",
-        border: "1px solid #ccc",
-        display: "inline-block",
+        // Enhanced inline styles for node appearance
+        width: "30px",
+        height: "30px",
+        border: `2px solid ${getBorderColor()}`,
+        display: "flex",
         cursor: "pointer",
         backgroundColor: getBackgroundColor(),
+        borderRadius: "4px",
+        boxShadow: "0 1px 3px rgba(0,0,0,0.2)",
+        transition: "all 0.1s ease",
+        alignItems: "center",
+        justifyContent: "center",
+        fontSize: "14px",
+        fontWeight: "bold",
+        userSelect: "none",
+        margin: "1px",
       }}
-    />
+      title={`${isStart ? "Start" : isGoal ? "Goal" : isWall ? "Wall" : isPath ? "Path" : isVisited ? "Visited" : "Empty"} (${row}, ${col})`}
+    >
+      {getNodeIcon()}
+    </div>
   );
 };
 

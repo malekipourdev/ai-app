@@ -60,8 +60,7 @@ const Grid: React.FC<GridProps> = ({
   const [internalStartNode, setInternalStartNode] = useState(DEFAULT_START);
   const [internalGoalNode, setInternalGoalNode] = useState(DEFAULT_GOAL);
 
-  // State for mouse interaction tracking
-  const [mouseIsPressed, setMouseIsPressed] = useState<boolean>(false);
+  // State for mouse interaction tracking (only for start/goal node dragging)
   const [isSettingStart, setIsSettingStart] = useState<boolean>(false);
   const [isSettingGoal, setIsSettingGoal] = useState<boolean>(false);
 
@@ -193,16 +192,13 @@ const Grid: React.FC<GridProps> = ({
         return;
       }
 
-      // Otherwise, toggle wall state and start mouse press tracking (only in manual mode)
-      if (obstacleMode === "manual") {
-        setMouseIsPressed(true);
-        toggleWall(row, col);
-      }
+      // Otherwise, just toggle wall state (no drag functionality)
+      toggleWall(row, col);
     },
-    [grid, isInteractionDisabled, obstacleMode]
+    [grid, isInteractionDisabled]
   );
 
-  // Handle mouse enter event (for dragging)
+  // Handle mouse enter event (for dragging start/goal nodes only)
   const handleMouseEnter = useCallback(
     (row: number, col: number): void => {
       // Skip interaction if disabled
@@ -219,29 +215,13 @@ const Grid: React.FC<GridProps> = ({
         moveGoalNode(row, col);
         return;
       }
-
-      // If mouse is pressed and not on start/goal, toggle wall (only in manual mode)
-      if (mouseIsPressed && obstacleMode === "manual") {
-        const node = grid[row][col];
-        if (!node.isStart && !node.isEnd) {
-          toggleWall(row, col);
-        }
-      }
     },
-    [
-      mouseIsPressed,
-      isSettingStart,
-      isSettingGoal,
-      grid,
-      isInteractionDisabled,
-      obstacleMode,
-    ]
+    [isSettingStart, isSettingGoal, isInteractionDisabled]
   );
 
-  // Handle mouse up event (end dragging)
+  // Handle mouse up event (end dragging start/goal nodes)
   const handleMouseUp = useCallback((): void => {
-    // Reset all mouse interaction states
-    setMouseIsPressed(false);
+    // Reset start/goal node dragging states
     setIsSettingStart(false);
     setIsSettingGoal(false);
   }, []);
@@ -299,138 +279,138 @@ const Grid: React.FC<GridProps> = ({
 
   // Render the grid component
   return (
-    <div className="grid-container">
+    <div
+      className="grid-container"
+      style={{
+        backgroundColor: "white",
+        borderRadius: "12px",
+        padding: "25px",
+        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+        border: "1px solid #e1e8ed",
+        maxWidth: "fit-content",
+      }}
+    >
       {/* Instructions for user interaction */}
-      <div className="grid-instructions">
-        <p>
-          {obstacleMode === "manual"
-            ? "Click and drag to create walls (black)"
-            : `Obstacle Mode: ${obstacleMode} (Density: ${(obstacleDensity * 100).toFixed(0)}%)`}
-        </p>
-        <p>Drag the green start node or red goal node to move them</p>
-        {obstacleMode !== "manual" && (
-          <p style={{ fontSize: "12px", color: "#666" }}>
-            Seed: {obstacleSeed} | Path exists:{" "}
-            {validatePath(grid, startNode, goalNode) ? "Yes" : "No"}
+      <div
+        className="grid-instructions"
+        style={{
+          marginBottom: "20px",
+          textAlign: "center",
+          backgroundColor: "#f8f9fa",
+          padding: "15px",
+          borderRadius: "8px",
+          border: "1px solid #dee2e6",
+        }}
+      >
+        <h3
+          style={{
+            margin: "0 0 10px 0",
+            color: "#495057",
+            fontSize: "1.1rem",
+            fontWeight: "600",
+          }}
+        >
+          🎯 How to Use
+        </h3>
+        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+          <p
+            style={{
+              margin: "0",
+              color: "#6c757d",
+              fontSize: "14px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "8px",
+            }}
+          >
+            <span>
+              🖱️ <strong>Click</strong> to toggle walls (obstacles)
+            </span>
           </p>
-        )}
+          <p
+            style={{
+              margin: "0",
+              color: "#6c757d",
+              fontSize: "14px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "8px",
+            }}
+          >
+            <span>
+              🟢 <strong>Drag green node</strong> to move start position
+            </span>
+          </p>
+          <p
+            style={{
+              margin: "0",
+              color: "#6c757d",
+              fontSize: "14px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "8px",
+            }}
+          >
+            <span>
+              🔴 <strong>Drag red node</strong> to move goal position
+            </span>
+          </p>
+        </div>
       </div>
 
       {/* Main grid display */}
       <div
-        className="grid"
         style={{
-          display: "inline-block",
-          border: "2px solid #333",
-          padding: "5px",
-          backgroundColor: "#f0f0f0",
-          opacity: isInteractionDisabled ? 0.7 : 1,
-          pointerEvents: isInteractionDisabled ? "none" : "auto",
+          display: "flex",
+          justifyContent: "center",
+          marginBottom: "20px",
         }}
-        onMouseLeave={handleMouseUp} // End drag if mouse leaves grid
       >
-        {/* Map through each row of the grid */}
-        {grid.map((row, rowIndex) => (
-          <div
-            key={rowIndex}
-            className="grid-row"
-            style={{
-              display: "flex",
-              height: "25px",
-            }}
-          >
-            {/* Map through each node in the row */}
-            {row.map((node, colIndex) => (
-              <Node
-                key={`${rowIndex}-${colIndex}`} // Unique key for each node
-                row={rowIndex}
-                col={colIndex}
-                isStart={node.isStart}
-                isGoal={node.isEnd} // Map isEnd to isGoal for Node component
-                isWall={node.isWall}
-                isVisited={node.isVisited}
-                isPath={node.isPath}
-                onMouseDown={handleMouseDown}
-                onMouseEnter={handleMouseEnter}
-                onMouseUp={handleMouseUp}
-              />
-            ))}
-          </div>
-        ))}
-      </div>
-
-      {/* Legend for node colors */}
-      <div
-        className="grid-legend"
-        style={{ marginTop: "10px", fontSize: "14px" }}
-      >
-        <div style={{ display: "flex", gap: "15px", justifyContent: "center" }}>
-          <span style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+        <div
+          className="grid"
+          style={{
+            display: "inline-block",
+            border: "3px solid #34495e",
+            borderRadius: "8px",
+            padding: "8px",
+            backgroundColor: "#ecf0f1",
+            opacity: isInteractionDisabled ? 0.7 : 1,
+            pointerEvents: isInteractionDisabled ? "none" : "auto",
+            boxShadow: "inset 0 2px 4px rgba(0,0,0,0.1)",
+          }}
+          onMouseLeave={handleMouseUp} // End drag if mouse leaves grid
+        >
+          {/* Map through each row of the grid */}
+          {grid.map((row, rowIndex) => (
             <div
+              key={rowIndex}
+              className="grid-row"
               style={{
-                width: "15px",
-                height: "15px",
-                backgroundColor: "#4CAF50",
-                border: "1px solid #ccc",
+                display: "flex",
+                height: "30px",
               }}
-            ></div>
-            Start
-          </span>
-          <span style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-            <div
-              style={{
-                width: "15px",
-                height: "15px",
-                backgroundColor: "#f44336",
-                border: "1px solid #ccc",
-              }}
-            ></div>
-            Goal
-          </span>
-          <span style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-            <div
-              style={{
-                width: "15px",
-                height: "15px",
-                backgroundColor: "#000000",
-                border: "1px solid #ccc",
-              }}
-            ></div>
-            Wall
-          </span>
-          <span style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-            <div
-              style={{
-                width: "15px",
-                height: "15px",
-                backgroundColor: "#81C784",
-                border: "1px solid #ccc",
-              }}
-            ></div>
-            Visited
-          </span>
-          <span style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-            <div
-              style={{
-                width: "15px",
-                height: "15px",
-                backgroundColor: "#FFEB3B",
-                border: "1px solid #ccc",
-              }}
-            ></div>
-            Path
-          </span>
-          <span style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-            <div
-              style={{
-                width: "15px",
-                height: "15px",
-                backgroundColor: "#FFFFFF",
-                border: "1px solid #ccc",
-              }}
-            ></div>
-            Empty
-          </span>
+            >
+              {/* Map through each node in the row */}
+              {row.map((node, colIndex) => (
+                <Node
+                  key={`${rowIndex}-${colIndex}`} // Unique key for each node
+                  row={rowIndex}
+                  col={colIndex}
+                  isStart={node.isStart}
+                  isGoal={node.isEnd} // Map isEnd to isGoal for Node component
+                  isWall={node.isWall}
+                  isVisited={node.isVisited}
+                  isPath={node.isPath}
+                  onMouseDown={handleMouseDown}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseUp={handleMouseUp}
+                />
+              ))}
+            </div>
+          ))}
         </div>
       </div>
     </div>
