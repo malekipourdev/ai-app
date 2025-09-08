@@ -12,8 +12,6 @@
 
 [![Demo](https://img.shields.io/badge/🎮-Live%20Demo-green.svg)](https://malekipourdev.ir/) [![GitHub Stars](https://img.shields.io/github/stars/malekipourdev/ai-app?style=social)](https://github.com/malekipourdev/ai-app)
 
-![Pathfinding Demo](https://via.placeholder.com/800x400/2563eb/ffffff?text=Interactive+Pathfinding+Visualization)
-
 </div>
 
 ---
