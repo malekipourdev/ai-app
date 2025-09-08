@@ -211,6 +211,48 @@ const Controls: React.FC<ControlsProps> = ({
         </div>
       )}
 
+      {/* Animation speed control section */}
+      <div style={{ marginBottom: "10px" }}>
+        <label
+          style={{
+            display: "block",
+            marginBottom: "8px",
+            fontWeight: "bold",
+            color: "#495057",
+            textAlign: isRTL ? "right" : "left",
+          }}
+        >
+          {t.speed}: {animationSpeed}ms delay
+        </label>
+        {/* Speed slider - controls delay between animation frames */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+            flexDirection: isRTL ? "row-reverse" : "row",
+          }}
+        >
+          <span style={{ fontSize: "12px", color: "#6c757d" }}>Fast</span>
+          <input
+            type="range"
+            min="10"
+            max="1000"
+            step="10"
+            value={animationSpeed}
+            onChange={(e) => onSpeedChange(Number(e.target.value))}
+            style={{
+              flex: 1,
+              height: "6px",
+              borderRadius: "3px",
+              background: "#ddd",
+              outline: "none",
+            }}
+            title="Adjust animation speed"
+          />
+          <span style={{ fontSize: "12px", color: "#6c757d" }}>Slow</span>
+        </div>
+      </div>
       {/* Animation control buttons section */}
       <div
         style={{
@@ -279,50 +321,6 @@ const Controls: React.FC<ControlsProps> = ({
           </button>
         )}
       </div>
-
-      {/* Animation speed control section */}
-      <div style={{ marginBottom: "10px" }}>
-        <label
-          style={{
-            display: "block",
-            marginBottom: "8px",
-            fontWeight: "bold",
-            color: "#495057",
-            textAlign: isRTL ? "right" : "left",
-          }}
-        >
-          {t.speed}: {animationSpeed}ms delay
-        </label>
-        {/* Speed slider - controls delay between animation frames */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",
-            flexDirection: isRTL ? "row-reverse" : "row",
-          }}
-        >
-          <span style={{ fontSize: "12px", color: "#6c757d" }}>Fast</span>
-          <input
-            type="range"
-            min="10"
-            max="1000"
-            step="10"
-            value={animationSpeed}
-            onChange={(e) => onSpeedChange(Number(e.target.value))}
-            style={{
-              flex: 1,
-              height: "6px",
-              borderRadius: "3px",
-              background: "#ddd",
-              outline: "none",
-            }}
-            title="Adjust animation speed"
-          />
-          <span style={{ fontSize: "12px", color: "#6c757d" }}>Slow</span>
-        </div>
-      </div>
-
       {/* Legend section explaining node colors and states */}
       <div
         style={{
