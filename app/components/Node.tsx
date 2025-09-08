@@ -8,6 +8,7 @@ interface NodeProps {
   isWall: boolean;
   isVisited: boolean;
   isPath: boolean;
+  cellSize?: number; // Dynamic cell size
   onMouseDown: (row: number, col: number) => void;
   onMouseEnter: (row: number, col: number) => void;
   onMouseUp: () => void;
@@ -26,6 +27,7 @@ const Node: React.FC<NodeProps> = ({
   isWall,
   isVisited,
   isPath,
+  cellSize = 30, // Default size
   onMouseDown,
   onMouseEnter,
   onMouseUp,
@@ -76,9 +78,9 @@ const Node: React.FC<NodeProps> = ({
       onMouseEnter={() => onMouseEnter(row, col)} // Handle mouse drag over node
       onMouseUp={() => onMouseUp()} // Handle mouse release to end drag
       style={{
-        // Enhanced inline styles for node appearance
-        width: "30px",
-        height: "30px",
+        // Enhanced inline styles for node appearance with dynamic sizing
+        width: `${cellSize}px`,
+        height: `${cellSize}px`,
         border: `2px solid ${getBorderColor()}`,
         display: "flex",
         cursor: "pointer",
@@ -88,10 +90,9 @@ const Node: React.FC<NodeProps> = ({
         transition: "all 0.1s ease",
         alignItems: "center",
         justifyContent: "center",
-        fontSize: "14px",
+        fontSize: `${Math.max(10, cellSize * 0.4)}px`, // Dynamic font size
         fontWeight: "bold",
         userSelect: "none",
-        margin: "1px",
       }}
       title={`${isStart ? "Start" : isGoal ? "Goal" : isWall ? "Wall" : isPath ? "Path" : isVisited ? "Visited" : "Empty"} (${row}, ${col})`}
     >

@@ -31,7 +31,6 @@ export default function Home() {
 
   // Animation control state
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [animationSpeed, setAnimationSpeed] = useState(100);
 
@@ -48,12 +47,7 @@ export default function Home() {
 
   // Start animation when playing and visitedNodes are available
   useEffect(() => {
-    if (
-      isPlaying &&
-      !isPaused &&
-      visitedNodes.length > 0 &&
-      currentStep === 0
-    ) {
+    if (isPlaying && visitedNodes.length > 0 && currentStep === 0) {
       // Start the animation after a small delay to ensure state is properly set
       const timer = setTimeout(() => {
         animateStep();
@@ -61,7 +55,7 @@ export default function Home() {
 
       return () => clearTimeout(timer);
     }
-  }, [isPlaying, isPaused, visitedNodes.length, currentStep]);
+  }, [isPlaying, visitedNodes.length, currentStep]);
 
   // Initialize or reset the grid to default state
   const initializeGrid = useCallback(() => {
@@ -191,15 +185,13 @@ export default function Home() {
           return nextStep;
         }
 
-        // Continue animation if not paused
-        if (!isPaused) {
-          animateStep();
-        }
+        // Continue animation
+        animateStep();
 
         return nextStep;
       });
     }, animationSpeed);
-  }, [visitedNodes, finalPath, animationSpeed, isPaused]);
+  }, [visitedNodes, finalPath, animationSpeed]);
 
   // Start pathfinding animation
   const handlePlay = useCallback(() => {
@@ -209,7 +201,6 @@ export default function Home() {
 
       if (result.visitedNodesInOrder.length > 0) {
         setIsPlaying(true);
-        setIsPaused(false);
         setCurrentStep(0);
         setIsComplete(false);
         // Animation will start automatically via useEffect when visitedNodes updates
@@ -236,59 +227,9 @@ export default function Home() {
     });
   }, [finalPath]);
 
-  // Pause animation
-  const handlePause = useCallback(() => {
-    setIsPaused(true);
-    if (animationTimer.current) {
-      clearTimeout(animationTimer.current);
-    }
-  }, []);
-
-  // Step forward one frame
-  const handleStepForward = useCallback(() => {
-    if (currentStep < visitedNodes.length && !isPlaying) {
-      setCurrentStep(currentStep + 1);
-
-      // Update grid for this step
-      setGrid((prevGrid) => {
-        const newGrid = prevGrid.map((row) => [...row]);
-        const node = visitedNodes[currentStep];
-
-        if (node && !node.isStart && !node.isEnd) {
-          newGrid[node.row][node.col].isVisited = true;
-        }
-
-        return newGrid;
-      });
-    }
-  }, [currentStep, visitedNodes, isPlaying]);
-
-  // Step backward one frame
-  const handleStepBackward = useCallback(() => {
-    if (currentStep > 0 && !isPlaying) {
-      setCurrentStep(currentStep - 1);
-
-      // Update grid for this step
-      setGrid((prevGrid) => {
-        const newGrid = resetGrid(prevGrid);
-
-        // Re-apply visited nodes up to new current step
-        for (let i = 0; i < currentStep - 1; i++) {
-          const node = visitedNodes[i];
-          if (node && !node.isStart && !node.isEnd) {
-            newGrid[node.row][node.col].isVisited = true;
-          }
-        }
-
-        return newGrid;
-      });
-    }
-  }, [currentStep, visitedNodes, isPlaying]);
-
   // Reset everything to initial state
   const handleReset = useCallback(() => {
     setIsPlaying(false);
-    setIsPaused(false);
     setCurrentStep(0);
     setIsComplete(false);
     setVisitedNodes([]);
@@ -321,7 +262,6 @@ export default function Home() {
 
     // Reset the visualization when grid size changes
     setIsPlaying(false);
-    setIsPaused(false);
     setCurrentStep(0);
     setIsComplete(false);
     setVisitedNodes([]);
@@ -403,13 +343,7 @@ export default function Home() {
           selectedAlgorithm={selectedAlgorithm}
           onAlgorithmChange={setSelectedAlgorithm}
           isPlaying={isPlaying}
-          isPaused={isPaused}
-          canStepForward={currentStep < visitedNodes.length && !isPlaying}
-          canStepBackward={currentStep > 0 && !isPlaying}
           onPlay={handlePlay}
-          onPause={handlePause}
-          onStepForward={handleStepForward}
-          onStepBackward={handleStepBackward}
           onReset={handleReset}
           animationSpeed={animationSpeed}
           onSpeedChange={setAnimationSpeed}
@@ -435,7 +369,7 @@ export default function Home() {
           stats={stats}
           currentStep={currentStep}
           totalSteps={visitedNodes.length}
-          isAnimating={isPlaying && !isPaused}
+          isAnimating={isPlaying}
         />
       </main>
     </div>

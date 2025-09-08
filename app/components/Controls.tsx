@@ -8,15 +8,9 @@ interface ControlsProps {
 
   // Animation control states
   isPlaying: boolean;
-  isPaused: boolean;
-  canStepForward: boolean;
-  canStepBackward: boolean;
 
   // Animation control functions
   onPlay: () => void;
-  onPause: () => void;
-  onStepForward: () => void;
-  onStepBackward: () => void;
   onReset: () => void;
 
   // Speed control
@@ -41,13 +35,7 @@ const Controls: React.FC<ControlsProps> = ({
   selectedAlgorithm,
   onAlgorithmChange,
   isPlaying,
-  isPaused,
-  canStepForward,
-  canStepBackward,
   onPlay,
-  onPause,
-  onStepForward,
-  onStepBackward,
   onReset,
   animationSpeed,
   onSpeedChange,
@@ -232,66 +220,6 @@ const Controls: React.FC<ControlsProps> = ({
           title="Start pathfinding animation"
         >
           ▶️ Play
-        </button>
-
-        {/* Pause button - pauses current animation */}
-        <button
-          onClick={onPause}
-          disabled={!isPlaying || isPaused}
-          style={{
-            padding: "10px 20px",
-            border: "none",
-            borderRadius: "4px",
-            backgroundColor: !isPlaying || isPaused ? "#6c757d" : "#ffc107",
-            color: "white",
-            cursor: !isPlaying || isPaused ? "not-allowed" : "pointer",
-            fontSize: "14px",
-            fontWeight: "bold",
-            opacity: !isPlaying || isPaused ? 0.6 : 1,
-          }}
-          title="Pause pathfinding animation"
-        >
-          ⏸️ Pause
-        </button>
-
-        {/* Step forward button - advance animation by one step */}
-        <button
-          onClick={onStepForward}
-          disabled={!canStepForward}
-          style={{
-            padding: "10px 20px",
-            border: "none",
-            borderRadius: "4px",
-            backgroundColor: !canStepForward ? "#6c757d" : "#17a2b8",
-            color: "white",
-            cursor: !canStepForward ? "not-allowed" : "pointer",
-            fontSize: "14px",
-            fontWeight: "bold",
-            opacity: !canStepForward ? 0.6 : 1,
-          }}
-          title="Step forward one frame"
-        >
-          ⏭️ Step +
-        </button>
-
-        {/* Step backward button - go back one step in animation */}
-        <button
-          onClick={onStepBackward}
-          disabled={!canStepBackward}
-          style={{
-            padding: "10px 20px",
-            border: "none",
-            borderRadius: "4px",
-            backgroundColor: !canStepBackward ? "#6c757d" : "#17a2b8",
-            color: "white",
-            cursor: !canStepBackward ? "not-allowed" : "pointer",
-            fontSize: "14px",
-            fontWeight: "bold",
-            opacity: !canStepBackward ? 0.6 : 1,
-          }}
-          title="Step backward one frame"
-        >
-          ⏮️ Step -
         </button>
 
         {/* Reset button - clear all animation and start over */}

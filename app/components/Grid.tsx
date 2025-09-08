@@ -69,6 +69,20 @@ const Grid: React.FC<GridProps> = ({
   const startNode = externalStartNode || internalStartNode;
   const goalNode = externalGoalNode || internalGoalNode;
 
+  // Calculate dynamic sizing for grid cells
+  const GRID_CONTAINER_SIZE = 480; // Base container size
+  const gridRows = grid.length;
+  const gridCols = grid.length > 0 ? grid[0].length : 0;
+  const cellSize =
+    gridRows > 0 && gridCols > 0
+      ? Math.floor(GRID_CONTAINER_SIZE / Math.max(gridRows, gridCols))
+      : 30;
+  const actualCellSize = Math.max(20, Math.min(60, cellSize)); // Min 20px, Max 60px
+  const actualGridSize = Math.min(
+    600,
+    Math.max(gridRows, gridCols) * actualCellSize + 80
+  ); // Grid size + more padding (40px each side), max 600px
+
   // Initialize the grid when component mounts
   useEffect(() => {
     if (!externalGrid) {
@@ -304,60 +318,93 @@ const Grid: React.FC<GridProps> = ({
       >
         <h3
           style={{
-            margin: "0 0 10px 0",
-            color: "#495057",
-            fontSize: "1.1rem",
-            fontWeight: "600",
+            margin: "0 0 20px 0",
+            color: "#2c3e50",
+            fontSize: "1.4rem",
+            fontWeight: "700",
+            textAlign: "left",
+            borderBottom: "3px solid #3498db",
+            paddingBottom: "10px",
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
           }}
         >
-          🎯 How to Use
+          🎯 <span>How to Use</span>
         </h3>
-        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-          <p
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "15px",
+            textAlign: "left",
+            padding: "20px",
+            backgroundColor: "#f8f9fa",
+            borderRadius: "12px",
+            border: "1px solid #e9ecef",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+          }}
+        >
+          <div
             style={{
-              margin: "0",
-              color: "#6c757d",
-              fontSize: "14px",
               display: "flex",
               alignItems: "center",
-              justifyContent: "center",
-              gap: "8px",
+              gap: "12px",
+              padding: "12px",
+              backgroundColor: "white",
+              borderRadius: "8px",
+              border: "1px solid #dee2e6",
+              fontSize: "16px",
+              fontWeight: "500",
+              color: "#495057",
             }}
           >
+            <span style={{ fontSize: "20px" }}>🖱️</span>
             <span>
-              🖱️ <strong>Click</strong> to toggle walls (obstacles)
+              <strong style={{ color: "#007bff" }}>Click</strong> to toggle
+              walls (obstacles)
             </span>
-          </p>
-          <p
+          </div>
+          <div
             style={{
-              margin: "0",
-              color: "#6c757d",
-              fontSize: "14px",
               display: "flex",
               alignItems: "center",
-              justifyContent: "center",
-              gap: "8px",
+              gap: "12px",
+              padding: "12px",
+              backgroundColor: "white",
+              borderRadius: "8px",
+              border: "1px solid #dee2e6",
+              fontSize: "16px",
+              fontWeight: "500",
+              color: "#495057",
             }}
           >
+            <span style={{ fontSize: "20px" }}>🟢</span>
             <span>
-              🟢 <strong>Drag green node</strong> to move start position
+              <strong style={{ color: "#28a745" }}>Drag green node</strong> to
+              move start position
             </span>
-          </p>
-          <p
+          </div>
+          <div
             style={{
-              margin: "0",
-              color: "#6c757d",
-              fontSize: "14px",
               display: "flex",
               alignItems: "center",
-              justifyContent: "center",
-              gap: "8px",
+              gap: "12px",
+              padding: "12px",
+              backgroundColor: "white",
+              borderRadius: "8px",
+              border: "1px solid #dee2e6",
+              fontSize: "16px",
+              fontWeight: "500",
+              color: "#495057",
             }}
           >
+            <span style={{ fontSize: "20px" }}>🔴</span>
             <span>
-              🔴 <strong>Drag red node</strong> to move goal position
+              <strong style={{ color: "#dc3545" }}>Drag red node</strong> to
+              move goal position
             </span>
-          </p>
+          </div>
         </div>
       </div>
 
@@ -372,14 +419,20 @@ const Grid: React.FC<GridProps> = ({
         <div
           className="grid"
           style={{
-            display: "inline-block",
             border: "3px solid #34495e",
             borderRadius: "8px",
-            padding: "8px",
+            padding: "40px", // Increased padding for better spacing
             backgroundColor: "#ecf0f1",
             opacity: isInteractionDisabled ? 0.7 : 1,
             pointerEvents: isInteractionDisabled ? "none" : "auto",
             boxShadow: "inset 0 2px 4px rgba(0,0,0,0.1)",
+            width: `${actualGridSize}px`, // Dynamic width based on cell count
+            height: `${actualGridSize}px`, // Dynamic height based on cell count
+            overflow: "hidden",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
           }}
           onMouseLeave={handleMouseUp} // End drag if mouse leaves grid
         >
@@ -390,7 +443,9 @@ const Grid: React.FC<GridProps> = ({
               className="grid-row"
               style={{
                 display: "flex",
-                height: "30px",
+                height: `${actualCellSize}px`,
+                gap: "3px", // Add gap between cells horizontally
+                marginBottom: rowIndex < grid.length - 1 ? "3px" : "0", // Add gap between rows vertically
               }}
             >
               {/* Map through each node in the row */}
@@ -404,6 +459,7 @@ const Grid: React.FC<GridProps> = ({
                   isWall={node.isWall}
                   isVisited={node.isVisited}
                   isPath={node.isPath}
+                  cellSize={actualCellSize} // Pass dynamic cell size
                   onMouseDown={handleMouseDown}
                   onMouseEnter={handleMouseEnter}
                   onMouseUp={handleMouseUp}
