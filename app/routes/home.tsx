@@ -57,6 +57,23 @@ export default function Home() {
     initializeGrid();
   }, []);
 
+  // Start animation when playing and visitedNodes are available
+  useEffect(() => {
+    if (
+      isPlaying &&
+      !isPaused &&
+      visitedNodes.length > 0 &&
+      currentStep === 0
+    ) {
+      // Start the animation after a small delay to ensure state is properly set
+      const timer = setTimeout(() => {
+        animateStep();
+      }, 10);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isPlaying, isPaused, visitedNodes.length, currentStep]);
+
   // Initialize or reset the grid to default state
   const initializeGrid = useCallback(() => {
     // Create a new 7x7 grid
@@ -128,24 +145,6 @@ export default function Home() {
     return result;
   }, [grid, startNode, goalNode, getAlgorithmFunction]);
 
-  // Start pathfinding animation
-  const handlePlay = useCallback(() => {
-    if (!isPlaying) {
-      // Execute algorithm and get results
-      const result = executeAlgorithm();
-
-      if (result.visitedNodesInOrder.length > 0) {
-        setIsPlaying(true);
-        setIsPaused(false);
-        setCurrentStep(0);
-        setIsComplete(false);
-
-        // Start animation loop
-        animateStep();
-      }
-    }
-  }, [isPlaying, executeAlgorithm]);
-
   // Animate one step of the pathfinding process
   const animateStep = useCallback(() => {
     animationTimer.current = setTimeout(() => {
@@ -191,6 +190,22 @@ export default function Home() {
       });
     }, animationSpeed);
   }, [visitedNodes, finalPath, animationSpeed, isPaused]);
+
+  // Start pathfinding animation
+  const handlePlay = useCallback(() => {
+    if (!isPlaying) {
+      // Execute algorithm and get results
+      const result = executeAlgorithm();
+
+      if (result.visitedNodesInOrder.length > 0) {
+        setIsPlaying(true);
+        setIsPaused(false);
+        setCurrentStep(0);
+        setIsComplete(false);
+        // Animation will start automatically via useEffect when visitedNodes updates
+      }
+    }
+  }, [isPlaying, executeAlgorithm]);
 
   // Display the final path on the grid
   const showFinalPath = useCallback(() => {
