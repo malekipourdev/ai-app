@@ -24,6 +24,13 @@ export default function Home() {
   const [startNode, setStartNode] = useState({ row: 1, col: 1 });
   const [goalNode, setGoalNode] = useState({ row: 5, col: 5 });
 
+  // Obstacle generation state
+  const [obstacleMode, setObstacleMode] = useState<
+    "manual" | "random" | "maze"
+  >("manual");
+  const [obstacleDensity, setObstacleDensity] = useState(0.3);
+  const [obstacleSeed, setObstacleSeed] = useState(42);
+
   // Algorithm control state
   const [selectedAlgorithm, setSelectedAlgorithm] = useState("dfs");
   const [selectedHeuristic, setSelectedHeuristic] = useState("manhattan");
@@ -323,32 +330,27 @@ export default function Home() {
           onSpeedChange={setAnimationSpeed}
           selectedHeuristic={selectedHeuristic}
           onHeuristicChange={setSelectedHeuristic}
+          obstacleMode={obstacleMode}
+          onObstacleModeChange={setObstacleMode}
+          obstacleDensity={obstacleDensity}
+          onObstacleDensityChange={setObstacleDensity}
+          obstacleSeed={obstacleSeed}
+          onObstacleSeedChange={setObstacleSeed}
         />
 
-        {/* Grid component - simplified for now */}
-        <div
-          style={{
-            border: "2px solid #333",
-            padding: "10px",
-            backgroundColor: "#f0f0f0",
-            borderRadius: "8px",
-          }}
-        >
-          <p style={{ textAlign: "center", margin: "0", color: "#666" }}>
-            Interactive Grid Component (Integration in Progress)
-          </p>
-          <p
-            style={{
-              textAlign: "center",
-              margin: "10px 0 0 0",
-              fontSize: "14px",
-              color: "#999",
-            }}
-          >
-            Step: {currentStep} / {visitedNodes.length} | Path Length:{" "}
-            {finalPath.length}
-          </p>
-        </div>
+        {/* Grid component with obstacle generation support */}
+        <Grid
+          grid={grid}
+          onGridChange={setGrid}
+          startNode={startNode}
+          goalNode={goalNode}
+          onStartNodeChange={setStartNode}
+          onGoalNodeChange={setGoalNode}
+          obstacleMode={obstacleMode}
+          obstacleDensity={obstacleDensity}
+          obstacleSeed={obstacleSeed}
+          isInteractionDisabled={isPlaying || isComplete}
+        />
 
         {/* Statistics panel with comprehensive metrics */}
         <StatsPanel
