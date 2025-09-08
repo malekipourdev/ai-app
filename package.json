@@ -1,5 +1,19 @@
 {
-  "name": "ai-app",
+  "name": "pathfinding-visualizer",
+  "version": "1.0.0",
+  "description": "Interactive pathfinding algorithm visualizer with Persian/English support",
+  "keywords": [
+    "pathfinding",
+    "algorithms",
+    "visualization",
+    "DFS",
+    "BFS",
+    "A*",
+    "UCS",
+    "education"
+  ],
+  "author": "AI Learning Platform",
+  "license": "MIT",
   "private": true,
   "type": "module",
   "scripts": {

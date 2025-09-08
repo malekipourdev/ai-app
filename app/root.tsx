@@ -22,6 +22,17 @@ export const links: Route.LinksFunction = () => [
     rel: "stylesheet",
     href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
   },
+  // Favicon links
+  { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+  {
+    rel: "icon",
+    href: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'><rect width='16' height='16' rx='3' fill='%234f46e5'/><circle cx='4' cy='4' r='1.5' fill='%2322c55e'/><circle cx='12' cy='12' r='1.5' fill='%23ef4444'/><path d='M4 4 L8 4 L8 8 L12 8 L12 12' stroke='%23fbbf24' stroke-width='1.5' fill='none' stroke-linecap='round'/><circle cx='10' cy='6' r='1.5' stroke='%23ffffff' stroke-width='0.8' fill='none'/><path d='m11.2 7.2 1 1' stroke='%23ffffff' stroke-width='0.8' stroke-linecap='round'/></svg>",
+    type: "image/svg+xml",
+  },
+  { rel: "apple-touch-icon", href: "/icon-48.svg", sizes: "48x48" },
+  { rel: "shortcut icon", href: "/favicon.svg" },
+  // PWA manifest
+  { rel: "manifest", href: "/manifest.json" },
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {

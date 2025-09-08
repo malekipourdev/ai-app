@@ -16,10 +16,37 @@ import { useLanguage } from "../i18n/LanguageContext";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Pathfinding Visualizer" },
+    { title: "Pathfinding Algorithms Visualizer" },
     {
       name: "description",
-      content: "Interactive Pathfinding Algorithm Visualizer",
+      content:
+        "Interactive tool for learning and visualizing pathfinding algorithms including DFS, BFS, UCS, Greedy and A* with animation and performance comparison",
+    },
+    {
+      name: "keywords",
+      content:
+        "pathfinding, algorithms, DFS, BFS, UCS, A*, Greedy, visualization, education, learning",
+    },
+    {
+      name: "author",
+      content: "AI Learning Platform",
+    },
+    {
+      property: "og:title",
+      content: "Pathfinding Algorithms Visualizer",
+    },
+    {
+      property: "og:description",
+      content:
+        "Interactive learning of pathfinding algorithms with animation and performance comparison",
+    },
+    {
+      property: "og:type",
+      content: "website",
+    },
+    {
+      name: "viewport",
+      content: "width=device-width, initial-scale=1.0",
     },
   ];
 }
@@ -347,31 +374,119 @@ export default function Home() {
       <header
         style={{
           textAlign: "center",
-          padding: "20px 0 30px 0",
+          padding: "25px 0 35px 0",
           backgroundColor: "white",
-          boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+          boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+          borderBottom: "3px solid #4f46e5",
         }}
       >
         <h1
           style={{
-            color: "#2c3e50",
-            fontSize: "2.5rem",
-            marginBottom: "10px",
-            fontWeight: "600",
+            color: "#1f2937",
+            fontSize: isRTL ? "2.2rem" : "2.5rem",
+            marginBottom: "12px",
+            fontWeight: "700",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "12px",
+            flexWrap: "wrap",
           }}
         >
-          🔍 {t.title}
+          <span style={{ fontSize: "2.8rem" }}>🔍</span>
+          <span
+            style={{
+              background: "linear-gradient(135deg, #4f46e5, #7c3aed)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          >
+            {t.title}
+          </span>
         </h1>
         <p
           style={{
-            color: "#7f8c8d",
+            color: "#6b7280",
             fontSize: "1.1rem",
-            maxWidth: "600px",
+            maxWidth: "700px",
             margin: "0 auto",
+            lineHeight: "1.6",
+            fontWeight: "400",
           }}
         >
           {t.subtitle}
         </p>
+        <div
+          style={{
+            marginTop: "15px",
+            display: "flex",
+            justifyContent: "center",
+            gap: "8px",
+            flexWrap: "wrap",
+          }}
+        >
+          <span
+            style={{
+              background: "#f3f4f6",
+              color: "#374151",
+              padding: "4px 12px",
+              borderRadius: "16px",
+              fontSize: "0.85rem",
+              fontWeight: "500",
+            }}
+          >
+            DFS
+          </span>
+          <span
+            style={{
+              background: "#f3f4f6",
+              color: "#374151",
+              padding: "4px 12px",
+              borderRadius: "16px",
+              fontSize: "0.85rem",
+              fontWeight: "500",
+            }}
+          >
+            BFS
+          </span>
+          <span
+            style={{
+              background: "#f3f4f6",
+              color: "#374151",
+              padding: "4px 12px",
+              borderRadius: "16px",
+              fontSize: "0.85rem",
+              fontWeight: "500",
+            }}
+          >
+            A*
+          </span>
+          <span
+            style={{
+              background: "#f3f4f6",
+              color: "#374151",
+              padding: "4px 12px",
+              borderRadius: "16px",
+              fontSize: "0.85rem",
+              fontWeight: "500",
+            }}
+          >
+            UCS
+          </span>
+          <span
+            style={{
+              background: "#f3f4f6",
+              color: "#374151",
+              padding: "4px 12px",
+              borderRadius: "16px",
+              fontSize: "0.85rem",
+              fontWeight: "500",
+            }}
+          >
+            Greedy
+          </span>
+        </div>
       </header>
 
       <main

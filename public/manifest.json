@@ -1,0 +1,31 @@
+{
+  "name": "Pathfinding Algorithms Visualizer",
+  "short_name": "PathViz",
+  "description": "Interactive tool for learning pathfinding algorithms",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8f9fa",
+  "theme_color": "#4f46e5",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-48.svg",
+      "sizes": "48x48",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    }
+  ],
+  "categories": ["education", "productivity", "utilities"],
+  "lang": "fa-IR",
+  "orientation": "any",
+  "scope": "/"
+}
