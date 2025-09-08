@@ -457,7 +457,7 @@ function getAlgorithmProperty(
     },
     bfs: {
       complete: true,
-      optimal: true,
+      optimal: true, // فقط در صورتی که هزینه‌ها یکنواخت باشن
       timeComplexity: "O(b^d)",
       spaceComplexity: "O(b^d)",
     },
@@ -475,7 +475,7 @@ function getAlgorithmProperty(
     },
     astar: {
       complete: true,
-      optimal: true,
+      optimal: true, // فقط اگر heuristic admissible و consistent باشه
       timeComplexity: "O(b^d)",
       spaceComplexity: "O(b^d)",
     },
