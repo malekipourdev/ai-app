@@ -1,4 +1,4 @@
-# 🔍 Pathfinding Algorithms Visualizer | مصورساز الگوریتم‌های مسیریابی
+# 🔍 Pathfinding Algorithms Visualizer
 
 <div align="center">
 
@@ -19,18 +19,21 @@ An interactive and modern tool for learning and visualizing pathfinding algorith
 ### ✨ Features
 
 #### 🎯 Supported Algorithms
+
 - **DFS** - Depth-First Search
 - **BFS** - Breadth-First Search
 - **UCS** - Uniform Cost Search
 - **Greedy** - Greedy Best-First Search
-- **A*** - A* Search Algorithm
+- **A\*** - A\* Search Algorithm
 
 #### 🌐 International Features
+
 - **Bilingual Support** - Complete Persian and English interface
 - **RTL/LTR** - Right-to-left and left-to-right text direction
 - **Native Fonts** - Tahoma for Persian, Inter for English
 
 #### 🎮 Interactive Features
+
 - **Live Animation** - Step-by-step algorithm execution visualization
 - **Speed Control** - Adjustable animation speed
 - **Random Walls** - Generate random obstacles
@@ -38,6 +41,7 @@ An interactive and modern tool for learning and visualizing pathfinding algorith
 - **Algorithm Comparison** - Compare different algorithm characteristics
 
 #### 🛠️ Technologies
+
 - 🚀 **React Router v7** - Server-side rendering
 - ⚡️ **Vite** - Hot Module Replacement (HMR)
 - 📦 **TypeScript** - Type safety
@@ -74,7 +78,7 @@ npm run build
 
 ### Usage
 
-1. **Select Algorithm**: Choose from DFS, BFS, UCS, Greedy, or A*
+1. **Select Algorithm**: Choose from DFS, BFS, UCS, Greedy, or A\*
 2. **Set Start/Goal**: Click to place start (green) and goal (red) points
 3. **Add Obstacles**: Click and drag to draw walls, or use "Random Walls" button
 4. **Configure**: Adjust animation speed and select heuristic for informed algorithms
@@ -84,14 +88,14 @@ npm run build
 ### Algorithm Comparison
 
 | Algorithm | Complete | Optimal | Time Complexity | Space Complexity |
-|-----------|----------|---------|----------------|------------------|
-| DFS       | ❌       | ❌      | O(b^m)         | O(bm)           |
-| BFS       | ✅       | ✅      | O(b^d)         | O(b^d)          |
-| UCS       | ✅       | ✅      | O(b^(1+C*/ε)) | O(b^(1+C*/ε))  |
-| Greedy    | ❌       | ❌      | O(b^m)         | O(b^m)          |
-| A*        | ✅       | ✅      | O(b^d)         | O(b^d)          |
+| --------- | -------- | ------- | --------------- | ---------------- |
+| DFS       | ❌       | ❌      | O(b^m)          | O(bm)            |
+| BFS       | ✅       | ✅      | O(b^d)          | O(b^d)           |
+| UCS       | ✅       | ✅      | O(b^(1+C\*/ε))  | O(b^(1+C\*/ε))   |
+| Greedy    | ❌       | ❌      | O(b^m)          | O(b^m)           |
+| A\*       | ✅       | ✅      | O(b^d)          | O(b^d)           |
 
-*b = branching factor, d = depth of solution, m = maximum depth, C* = optimal cost, ε = minimum step cost*
+_b = branching factor, d = depth of solution, m = maximum depth, C_ = optimal cost, ε = minimum step cost\*
 
 ---
 
@@ -100,18 +104,21 @@ npm run build
 ### ✨ ویژگی‌ها
 
 #### 🎯 الگوریتم‌های پشتیبانی شده
+
 - **DFS** - جستجوی عمق-اول
 - **BFS** - جستجوی عرض-اول
 - **UCS** - جستجوی یکنواخت هزینه
 - **Greedy** - جستجوی طمعانه
-- **A*** - الگوریتم A ستاره
+- **A\*** - الگوریتم A ستاره
 
 #### 🌐 ویژگی‌های بین‌المللی
+
 - **پشتیبانی دوزبانه** - رابط کاربری کامل فارسی و انگلیسی
 - **RTL/LTR** - پشتیبانی از راست به چپ و چپ به راست
 - **فونت‌های بومی** - تاهوما برای فارسی، اینتر برای انگلیسی
 
 #### 🎮 ویژگی‌های تعاملی
+
 - **انیمیشن زنده** - مصورسازی گام به گام اجرای الگوریتم
 - **کنترل سرعت** - تنظیم سرعت انیمیشن
 - **دیوارهای تصادفی** - تولید موانع تصادفی
@@ -119,6 +126,7 @@ npm run build
 - **مقایسه الگوریتم‌ها** - مقایسه ویژگی‌های مختلف الگوریتم‌ها
 
 #### 🛠️ تکنولوژی‌ها
+
 - 🚀 **React Router v7** - رندر سمت سرور
 - ⚡️ **Vite** - بازآوری سریع ماژول‌ها
 - 📦 **TypeScript** - امنیت نوع داده
@@ -155,7 +163,7 @@ npm run build
 
 ### نحوه استفاده
 
-1. **انتخاب الگوریتم**: از بین DFS، BFS، UCS، Greedy یا A* انتخاب کنید
+1. **انتخاب الگوریتم**: از بین DFS، BFS، UCS، Greedy یا A\* انتخاب کنید
 2. **تنظیم شروع/هدف**: کلیک کنید تا نقاط شروع (سبز) و هدف (قرمز) را قرار دهید
 3. **افزودن موانع**: کلیک و کشیدن برای رسم دیوارها، یا از دکمه "دیوارهای تصادفی" استفاده کنید
 4. **پیکربندی**: سرعت انیمیشن را تنظیم کنید و برای الگوریتم‌های آگاه، تابع تخمین انتخاب کنید
@@ -164,21 +172,22 @@ npm run build
 
 ### مقایسه الگوریتم‌ها
 
-| الگوریتم | کامل | بهینه | پیچیدگی زمانی | پیچیدگی مکانی |
-|----------|-------|-------|----------------|----------------|
-| DFS      | ❌    | ❌    | O(b^m)         | O(bm)          |
-| BFS      | ✅    | ✅    | O(b^d)         | O(b^d)         |
-| UCS      | ✅    | ✅    | O(b^(1+C*/ε)) | O(b^(1+C*/ε)) |
-| Greedy   | ❌    | ❌    | O(b^m)         | O(b^m)         |
-| A*       | ✅    | ✅    | O(b^d)         | O(b^d)         |
+| الگوریتم | کامل | بهینه | پیچیدگی زمانی  | پیچیدگی مکانی  |
+| -------- | ---- | ----- | -------------- | -------------- |
+| DFS      | ❌   | ❌    | O(b^m)         | O(bm)          |
+| BFS      | ✅   | ✅    | O(b^d)         | O(b^d)         |
+| UCS      | ✅   | ✅    | O(b^(1+C\*/ε)) | O(b^(1+C\*/ε)) |
+| Greedy   | ❌   | ❌    | O(b^m)         | O(b^m)         |
+| A\*      | ✅   | ✅    | O(b^d)         | O(b^d)         |
 
-*b = عامل انشعاب، d = عمق راه‌حل، m = حداکثر عمق، C* = هزینه بهینه، ε = حداقل هزینه گام*
+_b = عامل انشعاب، d = عمق راه‌حل، m = حداکثر عمق، C_ = هزینه بهینه، ε = حداقل هزینه گام\*
 
 ---
 
 ## Contributing | مشارکت
 
 ### English
+
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/amazing-feature`)
 3. Commit your changes (`git commit -m 'Add some amazing feature'`)
@@ -186,6 +195,7 @@ npm run build
 5. Open a Pull Request
 
 ### فارسی
+
 1. مخزن را Fork کنید
 2. شاخه ویژگی خود را ایجاد کنید (`git checkout -b feature/amazing-feature`)
 3. تغییرات خود را commit کنید (`git commit -m 'Add some amazing feature'`)
