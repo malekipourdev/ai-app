@@ -464,14 +464,14 @@ function getAlgorithmProperty(
     ucs: {
       complete: true,
       optimal: true,
-      timeComplexity: "O(b^d)",
-      spaceComplexity: "O(b^d)",
+      timeComplexity: "O(b^(1+C*/ε))",
+      spaceComplexity: "O(b^(1+C*/ε))",
     },
     greedy: {
       complete: false,
       optimal: false,
       timeComplexity: "O(b^m)",
-      spaceComplexity: "O(bm)",
+      spaceComplexity: "O(b^m)",
     },
     astar: {
       complete: true,

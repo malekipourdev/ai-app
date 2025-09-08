@@ -4,9 +4,13 @@ import Grid from "../components/Grid";
 import Controls from "../components/Controls";
 import StatsPanel from "../components/StatsPanel";
 import LanguageSelector from "../components/LanguageSelector";
-import { createGrid, resetGrid } from "../utils/gridUtils";
+import {
+  createGrid,
+  resetGrid,
+  generateRandomObstacles,
+} from "../utils/gridUtils";
 import type { NodeType } from "../utils/gridUtils";
-import { dfs, bfs } from "../algorithms/algorithms";
+import { dfs, bfs, ucs, greedy, astar } from "../algorithms/algorithms";
 import type { AlgorithmResult } from "../algorithms/algorithms";
 import { useLanguage } from "../i18n/LanguageContext";
 
@@ -102,11 +106,18 @@ export default function Home() {
         return dfs;
       case "bfs":
         return bfs;
-      // Add more algorithms as they become available
+      case "ucs":
+        return ucs;
+      case "greedy":
+        return (grid: NodeType[][], start: NodeType, end: NodeType) =>
+          greedy(grid, start, end, selectedHeuristic);
+      case "astar":
+        return (grid: NodeType[][], start: NodeType, end: NodeType) =>
+          astar(grid, start, end, selectedHeuristic);
       default:
         return dfs;
     }
-  }, [selectedAlgorithm]);
+  }, [selectedAlgorithm, selectedHeuristic]);
 
   // Get human-readable algorithm name
   const getAlgorithmName = useCallback(() => {
@@ -142,9 +153,10 @@ export default function Home() {
     const algorithmFunction = getAlgorithmFunction();
     const result: AlgorithmResult = algorithmFunction(cleanGrid, start, end);
 
-    // Record execution end time
+    // Record execution end time and convert to milliseconds with proper precision
     const endTime = performance.now();
-    setExecutionTime(endTime - startTime);
+    const executionTimeMs = Math.round((endTime - startTime) * 100) / 100; // Round to 2 decimal places
+    setExecutionTime(Math.max(0.01, executionTimeMs)); // Ensure minimum 0.01ms is shown
 
     // Store results for animation
     setVisitedNodes(result.visitedNodesInOrder);
@@ -278,6 +290,32 @@ export default function Home() {
     }
   }, []);
 
+  // Handle random walls generation
+  const handleRandomWalls = useCallback(() => {
+    // Reset any ongoing animation first
+    setIsPlaying(false);
+    setCurrentStep(0);
+    setIsComplete(false);
+    setVisitedNodes([]);
+    setFinalPath([]);
+    setExecutionTime(0);
+
+    if (animationTimer.current) {
+      clearTimeout(animationTimer.current);
+    }
+
+    // Generate new grid with random obstacles
+    // Use current grid, 30% density, random seed, and current start/goal positions
+    const newGrid = generateRandomObstacles(
+      grid,
+      0.3, // 30% density for walls
+      Math.floor(Math.random() * 10000), // Random seed
+      startNode,
+      goalNode
+    );
+    setGrid(newGrid);
+  }, [grid, startNode, goalNode]);
+
   // Calculate statistics for display
   const stats = {
     pathLength: finalPath.length,
@@ -354,6 +392,7 @@ export default function Home() {
           isPlaying={isPlaying}
           onPlay={handlePlay}
           onReset={handleReset}
+          onRandomWalls={handleRandomWalls}
           animationSpeed={animationSpeed}
           onSpeedChange={setAnimationSpeed}
           gridSize={gridSize}

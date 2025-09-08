@@ -14,6 +14,9 @@ interface ControlsProps {
   onPlay: () => void;
   onReset: () => void;
 
+  // Grid modification functions
+  onRandomWalls?: () => void;
+
   // Speed control
   animationSpeed: number;
   onSpeedChange: (speed: number) => void;
@@ -38,6 +41,7 @@ const Controls: React.FC<ControlsProps> = ({
   isPlaying,
   onPlay,
   onReset,
+  onRandomWalls,
   animationSpeed,
   onSpeedChange,
   gridSize,
@@ -52,9 +56,9 @@ const Controls: React.FC<ControlsProps> = ({
   const algorithms = [
     { value: "dfs", label: t.dfs },
     { value: "bfs", label: t.bfs },
-    { value: "ucs", label: "Uniform Cost Search (UCS)" },
-    { value: "greedy", label: "Greedy Best-First" },
-    { value: "astar", label: "A* Search" },
+    { value: "ucs", label: t.ucs },
+    { value: "greedy", label: t.greedy },
+    { value: "astar", label: t.astar },
   ];
 
   // Available heuristic functions for informed algorithms
@@ -254,6 +258,26 @@ const Controls: React.FC<ControlsProps> = ({
         >
           🔄 {t.reset}
         </button>
+
+        {/* Random Walls button - adds random obstacles to grid */}
+        {onRandomWalls && (
+          <button
+            onClick={onRandomWalls}
+            style={{
+              padding: "10px 20px",
+              border: "none",
+              borderRadius: "4px",
+              backgroundColor: "#6f42c1",
+              color: "white",
+              cursor: "pointer",
+              fontSize: "14px",
+              fontWeight: "bold",
+            }}
+            title={t.randomWalls}
+          >
+            🧱 {t.randomWalls}
+          </button>
+        )}
       </div>
 
       {/* Animation speed control section */}

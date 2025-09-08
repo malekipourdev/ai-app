@@ -17,6 +17,7 @@ export interface Translations {
   selectAlgorithm: string;
   play: string;
   reset: string;
+  randomWalls: string;
   speed: string;
   gridSize: string;
   heuristic: string;
@@ -99,6 +100,7 @@ export const translations: Record<Language, Translations> = {
     selectAlgorithm: "Select Algorithm",
     play: "Play",
     reset: "Reset",
+    randomWalls: "Random Walls",
     speed: "Speed",
     gridSize: "Grid Size",
     heuristic: "Heuristic",
@@ -180,6 +182,7 @@ export const translations: Record<Language, Translations> = {
     selectAlgorithm: "انتخاب الگوریتم",
     play: "اجرا",
     reset: "ریست",
+    randomWalls: "دیوارهای تصادفی",
     speed: "سرعت",
     gridSize: "اندازه شبکه",
     heuristic: "روش تخمین",
