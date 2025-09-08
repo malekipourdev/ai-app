@@ -13,3 +13,23 @@ body {
     color-scheme: dark;
   }
 }
+
+/* Persian RTL Support */
+.persian-rtl {
+  direction: rtl !important;
+  text-align: right !important;
+  font-family: Tahoma, Arial, sans-serif !important;
+  unicode-bidi: isolate !important;
+}
+
+.persian-rtl * {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+.english-ltr {
+  direction: ltr !important;
+  text-align: left !important;
+  font-family: Inter, Arial, sans-serif !important;
+  unicode-bidi: isolate !important;
+}

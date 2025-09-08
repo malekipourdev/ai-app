@@ -1,4 +1,5 @@
 import React from "react";
+import { useLanguage } from "../i18n/LanguageContext";
 
 // Interface for animation control props
 interface ControlsProps {
@@ -44,10 +45,13 @@ const Controls: React.FC<ControlsProps> = ({
   selectedHeuristic,
   onHeuristicChange,
 }) => {
+  // Language and RTL support
+  const { t, isRTL } = useLanguage();
+
   // Available pathfinding algorithms
   const algorithms = [
-    { value: "dfs", label: "Depth-First Search (DFS)" },
-    { value: "bfs", label: "Breadth-First Search (BFS)" },
+    { value: "dfs", label: t.dfs },
+    { value: "bfs", label: t.bfs },
     { value: "ucs", label: "Uniform Cost Search (UCS)" },
     { value: "greedy", label: "Greedy Best-First" },
     { value: "astar", label: "A* Search" },
@@ -55,8 +59,8 @@ const Controls: React.FC<ControlsProps> = ({
 
   // Available heuristic functions for informed algorithms
   const heuristics = [
-    { value: "manhattan", label: "Manhattan Distance" },
-    { value: "euclidean", label: "Euclidean Distance" },
+    { value: "manhattan", label: t.manhattan },
+    { value: "euclidean", label: t.euclidean },
     { value: "diagonal", label: "Diagonal Distance" },
   ];
 
@@ -74,6 +78,8 @@ const Controls: React.FC<ControlsProps> = ({
         border: "1px solid #e1e8ed",
         boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
         width: "100%",
+        direction: isRTL ? "rtl" : "ltr",
+        textAlign: isRTL ? "right" : "left",
         maxWidth: "900px",
       }}
     >
@@ -87,7 +93,7 @@ const Controls: React.FC<ControlsProps> = ({
           fontWeight: "600",
         }}
       >
-        ⚙️ Algorithm Controls
+        ⚙️ {t.algorithmControls}
       </h3>
 
       {/* Algorithm selection section */}
@@ -98,9 +104,10 @@ const Controls: React.FC<ControlsProps> = ({
             marginBottom: "8px",
             fontWeight: "bold",
             color: "#495057",
+            textAlign: isRTL ? "right" : "left",
           }}
         >
-          Select Algorithm:
+          {t.selectAlgorithm}:
         </label>
         {/* Algorithm dropdown selector */}
         <select
@@ -131,11 +138,19 @@ const Controls: React.FC<ControlsProps> = ({
             marginBottom: "8px",
             fontWeight: "bold",
             color: "#495057",
+            textAlign: isRTL ? "right" : "left",
           }}
         >
-          Grid Size: {gridSize}x{gridSize}
+          {t.gridSize}: {gridSize}x{gridSize}
         </label>
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+            flexDirection: isRTL ? "row-reverse" : "row",
+          }}
+        >
           <span style={{ fontSize: "12px", color: "#6c757d" }}>5x5</span>
           <input
             type="range"
@@ -217,9 +232,9 @@ const Controls: React.FC<ControlsProps> = ({
             fontWeight: "bold",
             opacity: isPlaying ? 0.6 : 1,
           }}
-          title="Start pathfinding animation"
+          title={t.startPathfinding}
         >
-          ▶️ Play
+          ▶️ {t.play}
         </button>
 
         {/* Reset button - clear all animation and start over */}
@@ -235,9 +250,9 @@ const Controls: React.FC<ControlsProps> = ({
             fontSize: "14px",
             fontWeight: "bold",
           }}
-          title="Reset grid and clear animation"
+          title={t.clearAll}
         >
-          🔄 Reset
+          🔄 {t.reset}
         </button>
       </div>
 
@@ -249,12 +264,20 @@ const Controls: React.FC<ControlsProps> = ({
             marginBottom: "8px",
             fontWeight: "bold",
             color: "#495057",
+            textAlign: isRTL ? "right" : "left",
           }}
         >
-          Animation Speed: {animationSpeed}ms delay
+          {t.speed}: {animationSpeed}ms delay
         </label>
         {/* Speed slider - controls delay between animation frames */}
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+            flexDirection: isRTL ? "row-reverse" : "row",
+          }}
+        >
           <span style={{ fontSize: "12px", color: "#6c757d" }}>Fast</span>
           <input
             type="range"
@@ -287,7 +310,7 @@ const Controls: React.FC<ControlsProps> = ({
         <h4
           style={{ margin: "0 0 10px 0", color: "#495057", fontSize: "16px" }}
         >
-          Legend:
+          {t.legend}:
         </h4>
         <div
           style={{
@@ -295,10 +318,16 @@ const Controls: React.FC<ControlsProps> = ({
             gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
             gap: "8px",
             fontSize: "12px",
+            direction: isRTL ? "rtl" : "ltr",
           }}
         >
           {/* Start node indicator */}
-          <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+          <div style={{ 
+            display: "flex", 
+            alignItems: "center", 
+            gap: "5px",
+            flexDirection: isRTL ? "row-reverse" : "row",
+          }}>
             <div
               style={{
                 width: "15px",
@@ -307,10 +336,15 @@ const Controls: React.FC<ControlsProps> = ({
                 border: "1px solid #ccc",
               }}
             ></div>
-            <span>Start</span>
+            <span>{t.start}</span>
           </div>
           {/* Goal node indicator */}
-          <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+          <div style={{ 
+            display: "flex", 
+            alignItems: "center", 
+            gap: "5px",
+            flexDirection: isRTL ? "row-reverse" : "row",
+          }}>
             <div
               style={{
                 width: "15px",
@@ -319,10 +353,15 @@ const Controls: React.FC<ControlsProps> = ({
                 border: "1px solid #ccc",
               }}
             ></div>
-            <span>Goal</span>
+            <span>{t.goal}</span>
           </div>
           {/* Wall node indicator */}
-          <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+          <div style={{ 
+            display: "flex", 
+            alignItems: "center", 
+            gap: "5px",
+            flexDirection: isRTL ? "row-reverse" : "row",
+          }}>
             <div
               style={{
                 width: "15px",
@@ -331,10 +370,15 @@ const Controls: React.FC<ControlsProps> = ({
                 border: "1px solid #ccc",
               }}
             ></div>
-            <span>Wall</span>
+            <span>{t.wall}</span>
           </div>
           {/* Visited node indicator */}
-          <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+          <div style={{ 
+            display: "flex", 
+            alignItems: "center", 
+            gap: "5px",
+            flexDirection: isRTL ? "row-reverse" : "row",
+          }}>
             <div
               style={{
                 width: "15px",
@@ -343,10 +387,15 @@ const Controls: React.FC<ControlsProps> = ({
                 border: "1px solid #ccc",
               }}
             ></div>
-            <span>Visited</span>
+            <span>{t.visited}</span>
           </div>
           {/* Path node indicator */}
-          <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+          <div style={{ 
+            display: "flex", 
+            alignItems: "center", 
+            gap: "5px",
+            flexDirection: isRTL ? "row-reverse" : "row",
+          }}>
             <div
               style={{
                 width: "15px",
@@ -355,10 +404,15 @@ const Controls: React.FC<ControlsProps> = ({
                 border: "1px solid #ccc",
               }}
             ></div>
-            <span>Path</span>
+            <span>{t.path}</span>
           </div>
           {/* Empty node indicator */}
-          <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+          <div style={{ 
+            display: "flex", 
+            alignItems: "center", 
+            gap: "5px",
+            flexDirection: isRTL ? "row-reverse" : "row",
+          }}>
             <div
               style={{
                 width: "15px",
@@ -367,7 +421,7 @@ const Controls: React.FC<ControlsProps> = ({
                 border: "1px solid #ccc",
               }}
             ></div>
-            <span>Empty</span>
+            <span>{t.empty}</span>
           </div>
         </div>
       </div>

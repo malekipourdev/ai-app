@@ -1,4 +1,5 @@
 import React from "react";
+import { useLanguage } from "../i18n/LanguageContext";
 
 interface NodeProps {
   row: number;
@@ -32,6 +33,9 @@ const Node: React.FC<NodeProps> = ({
   onMouseEnter,
   onMouseUp,
 }) => {
+  // Language support for tooltips
+  const { t } = useLanguage();
+
   // Determine the CSS class based on node state
   // Priority: start > goal > wall > path > visited > empty
   const getNodeClass = (): string => {
@@ -94,7 +98,7 @@ const Node: React.FC<NodeProps> = ({
         fontWeight: "bold",
         userSelect: "none",
       }}
-      title={`${isStart ? "Start" : isGoal ? "Goal" : isWall ? "Wall" : isPath ? "Path" : isVisited ? "Visited" : "Empty"} (${row}, ${col})`}
+      title={`${isStart ? t.start : isGoal ? t.goal : isWall ? t.wall : isPath ? t.path : isVisited ? t.visited : t.empty} (${row}, ${col})`}
     >
       {getNodeIcon()}
     </div>

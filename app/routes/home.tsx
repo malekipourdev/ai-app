@@ -3,10 +3,12 @@ import React, { useState, useCallback, useRef, useEffect } from "react";
 import Grid from "../components/Grid";
 import Controls from "../components/Controls";
 import StatsPanel from "../components/StatsPanel";
+import LanguageSelector from "../components/LanguageSelector";
 import { createGrid, resetGrid } from "../utils/gridUtils";
 import type { NodeType } from "../utils/gridUtils";
 import { dfs, bfs } from "../algorithms/algorithms";
 import type { AlgorithmResult } from "../algorithms/algorithms";
+import { useLanguage } from "../i18n/LanguageContext";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -19,6 +21,9 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
+  // Language and RTL support
+  const { t, isRTL } = useLanguage();
+
   // Grid state management
   const [grid, setGrid] = useState<NodeType[][]>([]);
   const [gridSize, setGridSize] = useState(7);
@@ -107,19 +112,19 @@ export default function Home() {
   const getAlgorithmName = useCallback(() => {
     switch (selectedAlgorithm) {
       case "dfs":
-        return "Depth-First Search (DFS)";
+        return t.dfs;
       case "bfs":
-        return "Breadth-First Search (BFS)";
+        return t.bfs;
       case "ucs":
-        return "Uniform Cost Search (UCS)";
+        return t.ucs;
       case "greedy":
-        return "Greedy Best-First";
+        return t.greedy;
       case "astar":
-        return "A* Search";
+        return t.astar;
       default:
-        return "Unknown Algorithm";
+        return t.unknownAlgorithm;
     }
-  }, [selectedAlgorithm]);
+  }, [selectedAlgorithm, t]);
 
   // Execute the selected pathfinding algorithm
   const executeAlgorithm = useCallback(() => {
@@ -279,6 +284,7 @@ export default function Home() {
     nodesVisited: visitedNodes.length,
     executionTime,
     algorithmName: getAlgorithmName(),
+    algorithmKey: selectedAlgorithm,
     heuristicUsed:
       selectedAlgorithm === "greedy" || selectedAlgorithm === "astar"
         ? selectedHeuristic
@@ -293,9 +299,13 @@ export default function Home() {
       style={{
         minHeight: "100vh",
         backgroundColor: "#f8f9fa",
-        fontFamily: "Inter, sans-serif",
+        fontFamily: isRTL ? "Tahoma, Arial, sans-serif" : "Inter, sans-serif",
+        direction: isRTL ? "rtl" : "ltr",
       }}
     >
+      {/* Language Selector */}
+      <LanguageSelector />
+
       <header
         style={{
           textAlign: "center",
@@ -312,7 +322,7 @@ export default function Home() {
             fontWeight: "600",
           }}
         >
-          🔍 Pathfinding Visualizer
+          🔍 {t.title}
         </h1>
         <p
           style={{
@@ -322,8 +332,7 @@ export default function Home() {
             margin: "0 auto",
           }}
         >
-          Visualize different pathfinding algorithms in action and compare their
-          performance
+          {t.subtitle}
         </p>
       </header>
 

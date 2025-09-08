@@ -8,6 +8,7 @@ import {
   validatePath,
 } from "../utils/gridUtils";
 import type { NodeType } from "../utils/gridUtils";
+import { useLanguage } from "../i18n/LanguageContext";
 
 // Interface for Grid component props
 interface GridProps {
@@ -47,6 +48,9 @@ const Grid: React.FC<GridProps> = ({
   obstacleSeed = 42,
   isInteractionDisabled = false,
 }) => {
+  // Language and RTL support
+  const { t, isRTL } = useLanguage();
+
   // Grid dimensions - default 7x7 as requested
   const GRID_ROWS = 7;
   const GRID_COLS = 7;
@@ -294,7 +298,7 @@ const Grid: React.FC<GridProps> = ({
   // Render the grid component
   return (
     <div
-      className="grid-container"
+      className={`grid-container ${isRTL ? 'persian-rtl' : 'english-ltr'}`}
       style={{
         backgroundColor: "white",
         borderRadius: "12px",
@@ -302,18 +306,21 @@ const Grid: React.FC<GridProps> = ({
         boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
         border: "1px solid #e1e8ed",
         maxWidth: "fit-content",
+        direction: isRTL ? "rtl" : "ltr",
       }}
     >
       {/* Instructions for user interaction */}
       <div
-        className="grid-instructions"
+        className={`grid-instructions ${isRTL ? 'persian-rtl' : 'english-ltr'}`}
         style={{
           marginBottom: "20px",
-          textAlign: "center",
+          textAlign: isRTL ? "right" : "center",
           backgroundColor: "#f8f9fa",
           padding: "15px",
           borderRadius: "8px",
           border: "1px solid #dee2e6",
+          direction: isRTL ? "rtl" : "ltr",
+          unicodeBidi: "isolate",
         }}
       >
         <h3
@@ -322,27 +329,36 @@ const Grid: React.FC<GridProps> = ({
             color: "#2c3e50",
             fontSize: "1.4rem",
             fontWeight: "700",
-            textAlign: "left",
+            textAlign: isRTL ? "right" : "left",
             borderBottom: "3px solid #3498db",
             paddingBottom: "10px",
             display: "flex",
             alignItems: "center",
             gap: "10px",
+            flexDirection: isRTL ? "row-reverse" : "row",
+            fontFamily: isRTL ? "Tahoma, Arial, sans-serif" : "Inter, Arial, sans-serif",
+            direction: isRTL ? "rtl" : "ltr",
+            unicodeBidi: "isolate",
+            justifyContent: isRTL ? "flex-end" : "flex-start",
           }}
         >
-          🎯 <span>How to Use</span>
+          🎯 <span>{t.howToUse}</span>
         </h3>
         <div
+          className={isRTL ? 'persian-rtl' : 'english-ltr'}
           style={{
             display: "flex",
             flexDirection: "column",
             gap: "15px",
-            textAlign: "left",
+            textAlign: isRTL ? "right" : "left",
             padding: "20px",
             backgroundColor: "#f8f9fa",
             borderRadius: "12px",
             border: "1px solid #e9ecef",
             boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+            direction: isRTL ? "rtl" : "ltr",
+            fontFamily: isRTL ? "Tahoma, Arial, sans-serif" : "Inter, Arial, sans-serif",
+            unicodeBidi: "isolate",
           }}
         >
           <div
@@ -357,13 +373,19 @@ const Grid: React.FC<GridProps> = ({
               fontSize: "16px",
               fontWeight: "500",
               color: "#495057",
+              flexDirection: isRTL ? "row-reverse" : "row",
+              fontFamily: isRTL ? "Tahoma, Arial, sans-serif" : "Inter, Arial, sans-serif",
+              textAlign: isRTL ? "right" : "left",
             }}
           >
             <span style={{ fontSize: "20px" }}>🖱️</span>
-            <span>
-              <strong style={{ color: "#007bff" }}>Click</strong> to toggle
-              walls (obstacles)
-            </span>
+            <span style={{
+              textAlign: isRTL ? "right" : "left",
+              direction: isRTL ? "rtl" : "ltr",
+              unicodeBidi: "isolate",
+              width: "100%",
+              display: "block",
+            }}>{t.clickToToggle}</span>
           </div>
           <div
             style={{
@@ -377,13 +399,19 @@ const Grid: React.FC<GridProps> = ({
               fontSize: "16px",
               fontWeight: "500",
               color: "#495057",
+              flexDirection: isRTL ? "row-reverse" : "row",
+              fontFamily: isRTL ? "Tahoma, Arial, sans-serif" : "Inter, Arial, sans-serif",
+              textAlign: isRTL ? "right" : "left",
             }}
           >
             <span style={{ fontSize: "20px" }}>🟢</span>
-            <span>
-              <strong style={{ color: "#28a745" }}>Drag green node</strong> to
-              move start position
-            </span>
+            <span style={{
+              textAlign: isRTL ? "right" : "left",
+              direction: isRTL ? "rtl" : "ltr",
+              unicodeBidi: "isolate",
+              width: "100%",
+              display: "block",
+            }}>{t.dragGreenNode}</span>
           </div>
           <div
             style={{
@@ -397,13 +425,19 @@ const Grid: React.FC<GridProps> = ({
               fontSize: "16px",
               fontWeight: "500",
               color: "#495057",
+              flexDirection: isRTL ? "row-reverse" : "row",
+              fontFamily: isRTL ? "Tahoma, Arial, sans-serif" : "Inter, Arial, sans-serif",
+              textAlign: isRTL ? "right" : "left",
             }}
           >
             <span style={{ fontSize: "20px" }}>🔴</span>
-            <span>
-              <strong style={{ color: "#dc3545" }}>Drag red node</strong> to
-              move goal position
-            </span>
+            <span style={{
+              textAlign: isRTL ? "right" : "left",
+              direction: isRTL ? "rtl" : "ltr",
+              unicodeBidi: "isolate",
+              width: "100%",
+              display: "block",
+            }}>{t.dragRedNode}</span>
           </div>
         </div>
       </div>

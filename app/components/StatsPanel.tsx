@@ -1,11 +1,13 @@
 import React from "react";
+import { useLanguage } from "../i18n/LanguageContext";
 
 // Interface for algorithm execution statistics
-interface AlgorithmStats {
+interface StatsProps {
   pathLength: number;
   nodesVisited: number;
   executionTime: number;
   algorithmName: string;
+  algorithmKey: string;
   heuristicUsed?: string;
   isComplete: boolean;
   pathFound: boolean;
@@ -13,7 +15,7 @@ interface AlgorithmStats {
 
 // Interface for StatsPanel props
 interface StatsPanelProps {
-  stats: AlgorithmStats;
+  stats: StatsProps;
   currentStep: number;
   totalSteps: number;
   isAnimating: boolean;
@@ -30,6 +32,9 @@ const StatsPanel: React.FC<StatsPanelProps> = ({
   totalSteps,
   isAnimating,
 }) => {
+  // Language and RTL support
+  const { t, isRTL } = useLanguage();
+
   // Calculate efficiency ratio (path length / nodes visited)
   // Lower ratio indicates more efficient pathfinding
   const efficiencyRatio =
@@ -48,9 +53,9 @@ const StatsPanel: React.FC<StatsPanelProps> = ({
     } else if (stats.isComplete && stats.pathFound) {
       return "Path found successfully!";
     } else if (stats.isComplete && !stats.pathFound) {
-      return "No path exists to goal";
+      return t.noPathFound;
     } else {
-      return "Ready to start pathfinding";
+      return t.readyToStartPathfinding;
     }
   };
 
@@ -78,6 +83,7 @@ const StatsPanel: React.FC<StatsPanelProps> = ({
         boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
         width: "100%",
         maxWidth: "900px",
+        direction: isRTL ? "rtl" : "ltr",
       }}
     >
       {/* Header section with algorithm info */}
@@ -90,7 +96,7 @@ const StatsPanel: React.FC<StatsPanelProps> = ({
             fontWeight: "600",
           }}
         >
-          📊 Algorithm Statistics
+          📊 {t.stats}
         </h3>
         {/* Current algorithm display */}
         <div
@@ -210,7 +216,7 @@ const StatsPanel: React.FC<StatsPanelProps> = ({
               letterSpacing: "0.5px",
             }}
           >
-            Path Length
+            {t.pathLength}
           </div>
           <div
             style={{
@@ -219,7 +225,7 @@ const StatsPanel: React.FC<StatsPanelProps> = ({
               marginTop: "3px",
             }}
           >
-            {stats.pathLength === 0 ? "No path found" : "Nodes in optimal path"}
+            {stats.pathLength === 0 ? t.noPathFound : "Nodes in optimal path"}
           </div>
         </div>
 
@@ -251,7 +257,7 @@ const StatsPanel: React.FC<StatsPanelProps> = ({
               letterSpacing: "0.5px",
             }}
           >
-            Nodes Explored
+            {t.nodesExplored}
           </div>
           <div
             style={{
@@ -260,7 +266,7 @@ const StatsPanel: React.FC<StatsPanelProps> = ({
               marginTop: "3px",
             }}
           >
-            Total nodes examined
+            {t.totalNodesExamined}
           </div>
         </div>
 
@@ -292,7 +298,7 @@ const StatsPanel: React.FC<StatsPanelProps> = ({
               letterSpacing: "0.5px",
             }}
           >
-            Efficiency Ratio
+            {t.efficiencyRatio}
           </div>
           <div
             style={{
@@ -301,7 +307,7 @@ const StatsPanel: React.FC<StatsPanelProps> = ({
               marginTop: "3px",
             }}
           >
-            Path length / nodes explored
+            {t.pathLengthOverNodesExplored}
           </div>
         </div>
 
@@ -333,7 +339,7 @@ const StatsPanel: React.FC<StatsPanelProps> = ({
               letterSpacing: "0.5px",
             }}
           >
-            Execution Time
+            {t.executionTime}
           </div>
           <div
             style={{
@@ -342,7 +348,7 @@ const StatsPanel: React.FC<StatsPanelProps> = ({
               marginTop: "3px",
             }}
           >
-            Algorithm runtime
+            {t.algorithmRuntime}
           </div>
         </div>
       </div>
@@ -363,7 +369,7 @@ const StatsPanel: React.FC<StatsPanelProps> = ({
             fontSize: "16px",
           }}
         >
-          Algorithm Characteristics:
+          {t.algorithmCharacteristics}:
         </h4>
         <div
           style={{
@@ -376,55 +382,55 @@ const StatsPanel: React.FC<StatsPanelProps> = ({
           {/* Completeness indicator */}
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             <span style={{ fontWeight: "bold", color: "#495057" }}>
-              Complete:
+              {t.complete}:
             </span>
             <span
               style={{
-                color: getAlgorithmProperty(stats.algorithmName, "complete")
+                color: getAlgorithmProperty(stats.algorithmKey, "complete", t)
                   ? "#28a745"
                   : "#dc3545",
                 fontWeight: "bold",
               }}
             >
-              {getAlgorithmProperty(stats.algorithmName, "complete")
-                ? "Yes"
-                : "No"}
+              {getAlgorithmProperty(stats.algorithmKey, "complete", t)
+                ? t.yes
+                : t.no}
             </span>
           </div>
           {/* Optimality indicator */}
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             <span style={{ fontWeight: "bold", color: "#495057" }}>
-              Optimal:
+              {t.optimal}:
             </span>
             <span
               style={{
-                color: getAlgorithmProperty(stats.algorithmName, "optimal")
+                color: getAlgorithmProperty(stats.algorithmKey, "optimal", t)
                   ? "#28a745"
                   : "#ffc107",
                 fontWeight: "bold",
               }}
             >
-              {getAlgorithmProperty(stats.algorithmName, "optimal")
-                ? "Yes"
-                : "Maybe"}
+              {getAlgorithmProperty(stats.algorithmKey, "optimal", t)
+                ? t.yes
+                : t.maybe}
             </span>
           </div>
           {/* Time complexity indicator */}
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             <span style={{ fontWeight: "bold", color: "#495057" }}>
-              Time Complexity:
+              {t.timeComplexity}:
             </span>
             <span style={{ color: "#17a2b8", fontWeight: "bold" }}>
-              {getAlgorithmProperty(stats.algorithmName, "timeComplexity")}
+              {getAlgorithmProperty(stats.algorithmKey, "timeComplexity", t)}
             </span>
           </div>
           {/* Space complexity indicator */}
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             <span style={{ fontWeight: "bold", color: "#495057" }}>
-              Space Complexity:
+              {t.spaceComplexity}:
             </span>
             <span style={{ color: "#17a2b8", fontWeight: "bold" }}>
-              {getAlgorithmProperty(stats.algorithmName, "spaceComplexity")}
+              {getAlgorithmProperty(stats.algorithmKey, "spaceComplexity", t)}
             </span>
           </div>
         </div>
@@ -437,33 +443,37 @@ const StatsPanel: React.FC<StatsPanelProps> = ({
  * Helper function to get algorithm properties for display
  * Returns characteristics of different pathfinding algorithms
  */
-function getAlgorithmProperty(algorithmName: string, property: string): any {
+function getAlgorithmProperty(
+  algorithmKey: string,
+  property: string,
+  t: any
+): any {
   const algorithms: Record<string, Record<string, any>> = {
-    "Depth-First Search (DFS)": {
+    dfs: {
       complete: false,
       optimal: false,
       timeComplexity: "O(b^m)",
       spaceComplexity: "O(bm)",
     },
-    "Breadth-First Search (BFS)": {
+    bfs: {
       complete: true,
       optimal: true,
       timeComplexity: "O(b^d)",
       spaceComplexity: "O(b^d)",
     },
-    "Uniform Cost Search (UCS)": {
+    ucs: {
       complete: true,
       optimal: true,
       timeComplexity: "O(b^d)",
       spaceComplexity: "O(b^d)",
     },
-    "Greedy Best-First": {
+    greedy: {
       complete: false,
       optimal: false,
       timeComplexity: "O(b^m)",
       spaceComplexity: "O(bm)",
     },
-    "A* Search": {
+    astar: {
       complete: true,
       optimal: true,
       timeComplexity: "O(b^d)",
@@ -471,7 +481,7 @@ function getAlgorithmProperty(algorithmName: string, property: string): any {
     },
   };
 
-  return algorithms[algorithmName]?.[property] || "Unknown";
+  return algorithms[algorithmKey]?.[property] || t.unknown;
 }
 
 export default StatsPanel;
